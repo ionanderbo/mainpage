@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ion Ander Bolado</title>
+  <title>Ion Ander Bolado | Biomedical Engineering &amp; Tech</title>
   <style>
     :root {
       --bg: #0d1117;
@@ -99,7 +99,7 @@
 
     .hero-inner {
       display: grid;
-      grid-template-columns: 1.5fr 0.7fr;
+      grid-template-columns: 1.4fr 0.8fr;
       gap: 2rem;
       align-items: center;
     }
@@ -198,10 +198,22 @@
     .terminal-header {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding-bottom: 1rem;
+      justify-content: space-between;
+      padding-bottom: 0.8rem;
       border-bottom: 1px solid var(--border);
       margin-bottom: 1rem;
+    }
+
+    .terminal-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .terminal-title {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: monospace;
     }
 
     .dot {
@@ -217,7 +229,7 @@
 
     .terminal-body {
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--muted-strong);
       line-height: 1.8;
     }
@@ -227,17 +239,10 @@
       white-space: pre-wrap;
     }
 
-    .terminal-body .purple {
-      color: #c084fc;
-    }
-
-    .terminal-body .blue {
-      color: var(--accent);
-    }
-
-    .terminal-body .green {
-      color: #7ee787;
-    }
+    .terminal-body .keyword { color: #ff7b72; }
+    .terminal-body .purple { color: #c084fc; }
+    .terminal-body .blue { color: var(--accent); }
+    .terminal-body .key { color: #79c0ff; }
 
     section {
       padding-top: 2.2rem;
@@ -316,19 +321,14 @@
       display: block;
       margin-left: 1.1rem;
       color: var(--muted);
-      font-size: 0.96rem;
-      line-height: 1.7;
+      font-size: 0.94rem;
+      line-height: 1.6;
     }
 
     .tag-grid {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .tag-group {
-      flex: 1 1 100%;
-      margin-top: 0.25rem;
+      flex-direction: column;
+      gap: 1.2rem;
     }
 
     .tag-group-label {
@@ -340,55 +340,92 @@
       text-transform: uppercase;
     }
 
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
     .tag {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.52rem 0.9rem;
+      padding: 0.45rem 0.85rem;
       border-radius: 999px;
       border: 1px solid rgba(88, 166, 255, 0.22);
       background: rgba(88, 166, 255, 0.06);
       color: var(--text);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 500;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
     }
 
-    .coming-soon-card {
-      display: block;
-      padding: 1.5rem 1.5rem 1.3rem;
-      border: 1px solid rgba(88,166,255,0.3);
-      border-radius: 18px;
-      background:
-        linear-gradient(180deg, rgba(88,166,255,0.04), rgba(13,17,23,0.5)),
-        rgba(22, 27, 34, 0.75);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.2rem;
     }
 
-    .coming-soon {
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(22, 27, 34, 0.75);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .project-card:hover {
+      border-color: rgba(88, 166, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .project-badge {
       display: inline-flex;
       align-items: center;
-      padding: 0.42rem 0.7rem;
+      align-self: flex-start;
+      padding: 0.3rem 0.65rem;
       border-radius: 999px;
-      background: rgba(88,166,255,0.12);
-      border: 1px solid rgba(88,166,255,0.3);
+      background: rgba(88, 166, 255, 0.12);
+      border: 1px solid rgba(88, 166, 255, 0.25);
       color: var(--accent);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
+      margin-bottom: 0.8rem;
     }
 
-    .coming-soon-card h3 {
-      margin: 1rem 0 0.55rem;
-      font-size: clamp(1.2rem, 2vw, 1.8rem);
-      letter-spacing: -0.04em;
+    .project-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
     }
 
-    .coming-soon-card p {
-      margin: 0;
+    .project-card p {
+      margin: 0 0 1.2rem;
       color: var(--muted);
-      line-height: 1.8;
+      font-size: 0.93rem;
+      line-height: 1.6;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .project-tag {
+      font-size: 0.78rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--muted-strong);
+      border: 1px solid rgba(148, 163, 184, 0.15);
     }
 
     @media (max-width: 840px) {
@@ -433,7 +470,7 @@
       }
 
       .content-panel,
-      .coming-soon-card {
+      .project-card {
         padding: 1.1rem 1rem;
       }
 
@@ -468,22 +505,25 @@
 
               <div class="actions">
                 <a class="button primary" href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer">LinkedIn</a>
-                <a class="button" href="mailto:ionander.bolado@opendeusto.es">Gmail</a>
+                <a class="button" href="mailto:ionander.bolado@opendeusto.es">Email Me</a>
               </div>
             </div>
 
             <aside class="hero-card" aria-label="Developer profile summary">
               <div class="terminal-header">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
+                <div class="terminal-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="terminal-title">profile.js</span>
               </div>
               <div class="terminal-body">
-                <span class="line"><span class="blue">profile</span> = {</span>
-                <span class="line">  <span class="green">field</span>: <span class="purple">"Biomedical Engineering"</span>,</span>
-                <span class="line">  <span class="green">focus</span>: <span class="purple">"Clinical hardware + IP + patents"</span>,</span>
-                <span class="line">  <span class="green">goal</span>: <span class="purple">"Real-world medical innovation"</span></span>
-                <span class="line">}</span>
+                <span class="line"><span class="keyword">const</span> <span class="blue">profile</span> = {</span>
+                <span class="line">  <span class="key">field</span>: <span class="purple">"Biomedical Engineering"</span>,</span>
+                <span class="line">  <span class="key">focus</span>: <span class="purple">"Clinical Hardware &amp; IP"</span>,</span>
+                <span class="line">  <span class="key">goal</span>: <span class="purple">"Real-World Medical Tech"</span></span>
+                <span class="line">};</span>
               </div>
             </aside>
           </div>
@@ -505,20 +545,19 @@
             <li class="focus-item">
               <strong>International Mobility</strong>
               <span>
-                Preparing for my Final Degree Project (TFG) in leading laboratories in Germany or the United Kingdom
-                during the academic year 2028/2029.
+                Targeting research positions in leading laboratories in Germany and the United Kingdom for my Final Degree Project (TFG).
               </span>
             </li>
             <li class="focus-item">
               <strong>Language Discipline</strong>
               <span>
-                Devoting 6 hours per week to mastering German with the goal of reaching B2/C1 proficiency.
+                Actively learning German to reach B2/C1 proficiency for international research and European clinical environments.
               </span>
             </li>
             <li class="focus-item">
               <strong>Leadership</strong>
               <span>
-                Candidate for the UNIC Student Board in European institutional environments.
+                Candidate for the UNIC Student Board in European institutional and academic environments.
               </span>
             </li>
           </ul>
@@ -529,21 +568,22 @@
           <div class="content-panel">
             <div class="tag-grid">
               <div class="tag-group">
-                <div class="tag-group-label">Languages &amp; Data</div>
+                <div class="tag-group-label">Languages &amp; Analytics</div>
                 <div class="tag-list">
                   <span class="tag">Python</span>
-                  <span class="tag">RStudio</span>
+                  <span class="tag">R</span>
                   <span class="tag">JavaScript</span>
-                  <span class="tag">HTML/CSS3</span>
+                  <span class="tag">HTML5 / CSS3</span>
                 </div>
               </div>
 
               <div class="tag-group">
-                <div class="tag-group-label">Core Ecosystems</div>
+                <div class="tag-group-label">Core Domains &amp; Ecosystems</div>
                 <div class="tag-list">
                   <span class="tag">Medical Devices</span>
-                  <span class="tag">Intellectual Property</span>
-                  <span class="tag">Data Analysis</span>
+                  <span class="tag">Intellectual Property &amp; Patents</span>
+                  <span class="tag">Biomedical Data Analysis</span>
+                  <span class="tag">Hardware Prototyping</span>
                 </div>
               </div>
             </div>
@@ -551,14 +591,52 @@
         </section>
 
         <section id="projects">
-          <div class="section-title">Sandbox / Research Projects</div>
-          <div class="coming-soon-card">
-            <span class="coming-soon">Coming Soon</span>
-            <h3>Research archive in progress</h3>
-            <p>
-              I will soon catalog here my academic repositories, code experiments, and secure data models in a structured
-              and accessible way.
-            </p>
+          <div class="section-title">Research &amp; Projects</div>
+          <div class="projects-grid">
+            <article class="project-card">
+              <div>
+                <span class="project-badge">Hardware &amp; IP</span>
+                <h3>Clinical Hardware Teardowns &amp; IP Analysis</h3>
+                <p>
+                  Analyzing medical device hardware patents, clinical engineering specs, and reverse-engineering diagnostic equipment.
+                </p>
+              </div>
+              <div class="project-tags">
+                <span class="project-tag">Medical Devices</span>
+                <span class="project-tag">Patent Law</span>
+                <span class="project-tag">Hardware</span>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div>
+                <span class="project-badge">Data Analysis</span>
+                <h3>Biomedical Data Processing Pipeline</h3>
+                <p>
+                  Developing scripts in Python and R for processing biosignals and modeling physiological metrics from experimental data.
+                </p>
+              </div>
+              <div class="project-tags">
+                <span class="project-tag">Python</span>
+                <span class="project-tag">R</span>
+                <span class="project-tag">Signal Processing</span>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div>
+                <span class="project-badge">Research</span>
+                <h3>TFG Research Framework</h3>
+                <p>
+                  Preparing research proposals and experimental design protocols targeted at international biomedical laboratories in Europe.
+                </p>
+              </div>
+              <div class="project-tags">
+                <span class="project-tag">TFG</span>
+                <span class="project-tag">Academic Research</span>
+                <span class="project-tag">Lab Protocols</span>
+              </div>
+            </article>
           </div>
         </section>
       </main>
