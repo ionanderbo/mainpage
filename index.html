@@ -1,800 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ion Ander Bolado | Biomedical Engineering &amp; Translational MedTech</title>
-  <style>
-    :root {
-      --bg: #0d1117;
-      --bg-elev: #161b22;
-      --bg-soft: #0f172a;
-      --panel: rgba(22, 27, 34, 0.9);
-      --panel-strong: #111827;
-      --border: rgba(148, 163, 184, 0.2);
-      --text: #e6edf3;
-      --muted: #8b949e;
-      --muted-strong: #c9d1d9;
-      --accent: #58a6ff;
-      --accent-soft: rgba(88, 166, 255, 0.12);
-      --shadow: rgba(1, 4, 9, 0.45);
-      --success: #3fb950;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(88, 166, 255, 0.10), transparent 28%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .container {
-      width: min(1100px, calc(100% - 2rem));
-      margin: 0 auto;
-    }
-
-    .site-shell {
-      min-height: 100vh;
-      padding: 2rem 0 4rem;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.5rem 0 1.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand {
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted-strong);
-      opacity: 0.95;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .nav a {
-      color: var(--muted);
-      font-size: 0.92rem;
-      transition: color 0.2s ease;
-    }
-
-    .nav a:hover {
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .hero {
-      padding: 4rem 0 2.5rem;
-    }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1.3fr 0.9fr;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      padding: 0.45rem 0.85rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(17, 24, 39, 0.5);
-      color: var(--muted-strong);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 14px rgba(63, 185, 80, 0.8);
-    }
-
-    h1 {
-      margin: 1.1rem 0 0.75rem;
-      font-size: clamp(2.5rem, 5vw, 4.3rem);
-      line-height: 1.05;
-      letter-spacing: -0.05em;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .subtitle {
-      max-width: 600px;
-      margin: 0;
-      color: var(--muted);
-      font-size: clamp(1.05rem, 1.9vw, 1.25rem);
-      line-height: 1.6;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.85rem;
-      margin-top: 1.9rem;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 2.85rem;
-      padding: 0.75rem 1.15rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
-      font-size: 0.94rem;
-      font-weight: 600;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .button:hover {
-      transform: translateY(-1px);
-      border-color: rgba(88, 166, 255, 0.5);
-      text-decoration: none;
-    }
-
-    .button.primary {
-      background: var(--accent-soft);
-      border-color: rgba(88, 166, 255, 0.4);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-
-    /* Dossier Card (Replaces fake JS terminal) */
-    .dossier-card {
-      position: relative;
-      padding: 1.4rem;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(22, 27, 34, 0.92), rgba(13, 17, 23, 0.95));
-      box-shadow: 0 18px 40px var(--shadow);
-      overflow: hidden;
-    }
-
-    .dossier-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), transparent 40%, transparent 65%, rgba(88, 166, 255, 0.06));
-      pointer-events: none;
-    }
-
-    .dossier-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 0.8rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 1rem;
-    }
-
-    .dossier-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .dossier-status {
-      font-size: 0.74rem;
-      font-family: "SFMono-Regular", Consolas, monospace;
-      color: var(--success);
-    }
-
-    .dossier-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .dossier-row {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .dossier-key {
-      font-size: 0.73rem;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--muted);
-    }
-
-    .dossier-val {
-      font-size: 0.92rem;
-      color: var(--muted-strong);
-      font-weight: 500;
-    }
-
-    section {
-      padding-top: 2.6rem;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.2rem;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .section-title::before {
-      content: "";
-      width: 0.75rem;
-      height: 0.75rem;
-      border-radius: 0.2rem;
-      background: linear-gradient(135deg, rgba(88, 166, 255, 0.8), rgba(88, 166, 255, 0.2));
-      box-shadow: 0 0 12px rgba(88, 166, 255, 0.35);
-    }
-
-    .content-panel {
-      background: rgba(22, 27, 34, 0.72);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem 1.65rem;
-      box-shadow: 0 10px 24px rgba(1, 4, 9, 0.2);
-    }
-
-    .content-panel p {
-      margin: 0 0 1rem;
-      color: var(--muted-strong);
-      font-size: 1.02rem;
-    }
-
-    .content-panel p:last-child {
-      margin-bottom: 0;
-    }
-
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.1rem;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .pillar-card {
-      padding: 1.35rem;
-      background: rgba(15, 23, 42, 0.55);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .pillar-card:hover {
-      border-color: rgba(88, 166, 255, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .pillar-num {
-      display: inline-block;
-      font-family: "SFMono-Regular", Consolas, monospace;
-      font-size: 0.76rem;
-      color: var(--accent);
-      margin-bottom: 0.55rem;
-    }
-
-    .pillar-card h3 {
-      margin: 0 0 0.45rem;
-      font-size: 1.08rem;
-      color: var(--text);
-    }
-
-    .pillar-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.93rem;
-      line-height: 1.6;
-    }
-
-    .two-col-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.1rem;
-    }
-
-    .info-card {
-      padding: 1.4rem;
-      background: rgba(22, 27, 34, 0.72);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-    }
-
-    .info-badge {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .info-card h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.12rem;
-      color: var(--text);
-    }
-
-    .info-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.6;
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.2rem;
-    }
-
-    .project-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 1.4rem;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: rgba(22, 27, 34, 0.75);
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .project-card:hover {
-      border-color: rgba(88, 166, 255, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .project-badge {
-      display: inline-flex;
-      align-items: center;
-      align-self: flex-start;
-      padding: 0.28rem 0.65rem;
-      border-radius: 999px;
-      background: rgba(88, 166, 255, 0.12);
-      border: 1px solid rgba(88, 166, 255, 0.25);
-      color: var(--accent);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-    }
-
-    .project-card h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.14rem;
-      color: var(--text);
-      letter-spacing: -0.01em;
-    }
-
-    .project-card p {
-      margin: 0 0 1.1rem;
-      color: var(--muted);
-      font-size: 0.93rem;
-      line-height: 1.6;
-    }
-
-    .project-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      margin-top: auto;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .project-tag {
-      font-size: 0.77rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--muted-strong);
-      border: 1px solid rgba(148, 163, 184, 0.15);
-    }
-
-    .project-note {
-      font-size: 0.82rem;
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .tag-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.3rem;
-    }
-
-    .tag-group-label {
-      display: inline-block;
-      margin-bottom: 0.7rem;
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.42rem 0.85rem;
-      border-radius: 999px;
-      border: 1px solid rgba(88, 166, 255, 0.22);
-      background: rgba(88, 166, 255, 0.06);
-      color: var(--text);
-      font-size: 0.89rem;
-      font-weight: 500;
-    }
-
-    .footer-cta {
-      margin-top: 3.5rem;
-      padding: 2rem;
-      border: 1px solid rgba(88, 166, 255, 0.25);
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(22, 27, 34, 0.85), rgba(15, 23, 42, 0.9));
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .footer-cta h2 {
-      margin: 0 0 0.4rem;
-      font-size: 1.35rem;
-      color: var(--text);
-    }
-
-    .footer-cta p {
-      margin: 0;
-      max-width: 600px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .footer-bottom {
-      margin-top: 2rem;
-      padding-top: 1.2rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      color: var(--muted);
-      font-size: 0.84rem;
-    }
-
-    @media (max-width: 860px) {
-      .hero-inner,
-      .pillars-grid,
-      .two-col-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .site-shell {
-        padding-top: 1.2rem;
-      }
-
-      .hero {
-        padding-top: 2.5rem;
-      }
-
-      .actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .button {
-        width: 100%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ion Ander Bolado | Biomedical Engineering student, Bilbao</title>
+<meta name="description" content="Biomedical Engineering student at the University of Deusto building towards medical devices that help patients with chronic disease.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9EFF1; --card:#F8FBFB; --ink:#0F2230; --slate:#55697A; --line:#C9D6DC;
+  --teal:#0B7A75; --teal-deep:#0A4F55; --needle:#D6353D; --scan:#0F2230; --scan-fg:#A9C4D0;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.05rem/1.65 var(--body)}
+a{color:var(--teal-deep)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--needle);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1120px,calc(100% - 2.5rem));margin:0 auto}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;letter-spacing:-.025em}
+h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800}
+h3{font-size:1.35rem;font-weight:700}
+p{margin:0 0 1rem;max-width:62ch}
+
+header.top{position:sticky;top:0;z-index:5;background:rgba(233,239,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;gap:1rem;flex-wrap:wrap}
+.logo{font:800 1.1rem var(--display);color:var(--ink);text-decoration:none}
+nav a{margin-left:1.3rem;color:var(--slate);text-decoration:none;font-size:.95rem;font-weight:500}
+nav a:hover{color:var(--ink)}
+
+.hero{padding:clamp(2.5rem,6vw,5rem) 0 clamp(3rem,6vw,5rem)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+h1{font-size:clamp(2.7rem,6.2vw,5.2rem);font-weight:800;color:var(--ink)}
+h1 span{display:block;color:var(--teal)}
+.lede{font-size:1.2rem;color:var(--slate);margin:1.4rem 0 1.8rem;max-width:34rem}
+.btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.8rem 1.3rem;border-radius:6px;font-weight:500;text-decoration:none;border:2px solid var(--ink);color:var(--ink);transition:background .2s,color .2s}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--teal-deep);border-color:var(--teal-deep);color:#fff}
+
+/* CT slice */
+.scan{background:var(--scan);border-radius:14px;padding:1rem 1rem .6rem;color:var(--scan-fg)}
+.scan svg{display:block;width:100%;height:auto}
+.scan .path{stroke:var(--needle);stroke-width:3;stroke-linecap:round;stroke-dasharray:260;stroke-dashoffset:260}
+.scan.go .path{animation:draw 2.2s cubic-bezier(.6,0,.2,1) .5s forwards}
+.scan .tip{opacity:0}
+.scan.go .tip{animation:pop .4s ease 2.6s forwards}
+.scan .ring{fill:none;stroke:var(--needle);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
+.scan.go .ring{animation:ring 1.6s ease-out 2.7s 2}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+@keyframes ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.6)}}
+.readout{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;font-size:.88rem;padding:.7rem .2rem .4rem}
+.readout b{color:#fff;font-weight:500}
+.readout button{background:none;border:1px solid var(--scan-fg);color:var(--scan-fg);border-radius:5px;padding:.3rem .8rem;font:inherit;cursor:pointer}
+.readout button:hover{color:#fff;border-color:#fff}
+
+section{padding:clamp(3rem,6vw,5rem) 0}
+section.alt{background:var(--card);border-block:1px solid var(--line)}
+.intro{margin-bottom:2.2rem}
+.intro p{color:var(--slate);margin-top:.9rem}
+
+/* about */
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem}
+.facts{border-left:4px solid var(--teal);padding-left:1.4rem;align-self:start}
+.facts dt{font-weight:700;font-family:var(--display);font-size:1.05rem}
+.facts dd{margin:0 0 1.1rem;color:var(--slate)}
+
+/* path */
+.path-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.path-list li{position:relative;padding:1.6rem 1rem 0 0;border-top:3px solid var(--line)}
+.path-list li::before{content:"";position:absolute;top:-8px;left:0;width:13px;height:13px;border-radius:50%;background:var(--card);border:3px solid var(--teal)}
+.path-list li.now{border-top-color:var(--teal)}
+.path-list li.now::before{background:var(--needle);border-color:var(--needle)}
+.path-list h3{font-size:1.05rem;margin-bottom:.35rem}
+.path-list p{font-size:.93rem;color:var(--slate);margin:0}
+
+/* projects */
+.projects{display:grid;gap:1.4rem}
+.proj{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.8rem;display:grid;grid-template-columns:1fr 15rem;gap:2rem}
+.proj.wip{border-style:dashed;border-color:var(--teal)}
+.tag{display:inline-block;font-size:.82rem;font-weight:500;padding:.15rem .7rem;border-radius:99px;background:#D4E8E6;color:var(--teal-deep);margin:0 .4rem .4rem 0}
+.tag.live{background:#F6D9DB;color:#8E1F26}
+.proj h3{margin:.5rem 0 .6rem}
+.stats{margin:0;display:grid;gap:1rem;align-content:start}
+.stats div{border-left:3px solid var(--needle);padding-left:.9rem}
+.stats dt{font:800 1.7rem var(--display);line-height:1}
+.stats dd{margin:.2rem 0 0;font-size:.86rem;color:var(--slate)}
+.stats.teal div{border-color:var(--teal)}
+details{margin-top:.6rem}
+summary{cursor:pointer;font-weight:500;color:var(--teal-deep)}
+details p{margin-top:.8rem;font-size:.97rem}
+.small{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.small .proj{grid-template-columns:1fr}
+
+/* focus */
+.focus{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.focus h3{border-bottom:3px solid var(--teal);padding-bottom:.6rem;margin-bottom:.8rem}
+.focus ul{margin:0;padding-left:1.1rem;color:var(--slate)}
+
+.contact{background:var(--scan);color:#fff}
+.contact h2{color:#fff;max-width:20ch}
+.contact p{color:var(--scan-fg)}
+.contact .btn{border-color:#fff;color:#fff}
+.contact .btn.solid{background:#fff;color:var(--ink)}
+.contact .btn:hover{background:var(--needle);border-color:var(--needle);color:#fff}
+footer{padding:1.4rem 0;font-size:.88rem;color:var(--slate)}
+
+@media(max-width:860px){
+  .hero .wrap,.about,.proj,.small,.focus{grid-template-columns:1fr}
+  .path-list{grid-template-columns:1fr;gap:1.6rem}
+  .path-list li{border-top:0;border-left:3px solid var(--line);padding:0 0 0 1.4rem}
+  .path-list li::before{top:2px;left:-8px}
+  .path-list li.now{border-left-color:var(--teal)}
+  nav a{margin:0 1rem 0 0}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .scan .path{stroke-dashoffset:0;animation:none!important}
+  .scan .tip{opacity:1;animation:none!important}
+  .scan .ring{animation:none!important}
+}
+</style>
 </head>
 <body>
-  <div class="site-shell">
-    <div class="container">
-      <header class="topbar">
-        <div class="brand">Ion Ander Bolado</div>
-        <nav class="nav" aria-label="Main navigation">
-          <a href="#about">About</a>
-          <a href="#pillars">Engineering Focus</a>
-          <a href="#work">Work &amp; Exploration</a>
-          <a href="#mobility">Mobility &amp; Outreach</a>
-          <a href="#arsenal">Skills</a>
-        </nav>
-      </header>
+<header class="top"><div class="wrap">
+  <a class="logo" href="#top">Ion Ander Bolado</a>
+  <nav aria-label="Main"><a href="#about">About</a><a href="#path">Roadmap</a><a href="#projects">Projects</a><a href="#focus">Focus</a><a href="#contact">Contact</a></nav>
+</div></header>
 
-      <main>
-        <section class="hero">
-          <div class="hero-inner">
-            <div>
-              <div class="eyebrow">Biomedical Engineering · Bilbao → Germany / UK</div>
-              <h1>Ion Ander Bolado</h1>
-              <p class="subtitle">
-                Biomedical Engineering student focused on medical hardware, translational medicine, and the IP &amp; venture pathways that bring clinical devices to patients.
-              </p>
+<main id="top">
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>Biomedical engineering<span>for patients who live with chronic disease.</span></h1>
+    <p class="lede">I’m Ion Ander, a Biomedical Engineering student at the University of Deusto in Bilbao. I’m learning to design medical devices, take them from lab to hospital, and one day build a company that does it at scale.</p>
+    <div class="btns"><a class="btn solid" href="#projects">See my projects</a><a class="btn" href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer">LinkedIn</a></div>
+  </div>
 
-              <div class="actions">
-                <a class="button primary" href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer">LinkedIn</a>
-                <a class="button" href="mailto:ionander.bolado@opendeusto.es">Email Me</a>
-                <!-- Drop your PDF CV into the same folder as index.html and uncomment below -->
-                <!-- <a class="button" href="Ion_Ander_Bolado_CV.pdf" target="_blank">Download CV (PDF)</a> -->
-              </div>
-            </div>
+  <figure class="scan" id="scan" style="margin:0">
+    <svg viewBox="0 0 520 400" role="img" aria-label="Axial chest CT drawing with a biopsy needle path reaching a lung nodule">
+      <ellipse cx="260" cy="190" rx="236" ry="160" fill="#1B3342" stroke="#3B5A6B" stroke-width="2"/>
+      <path d="M150 90C95 100 78 190 98 262C118 305 182 308 212 270C236 230 236 130 214 100C196 82 170 84 150 90Z" fill="#050B10" stroke="#2C4757"/>
+      <path d="M370 90C425 100 442 190 422 262C402 305 338 308 308 270C292 230 292 130 306 100C322 82 350 84 370 90Z" fill="#050B10" stroke="#2C4757"/>
+      <ellipse cx="262" cy="205" rx="34" ry="42" fill="#5F7F90" opacity=".65"/>
+      <circle cx="260" cy="316" r="22" fill="#9FB8C4"/>
+      <g fill="none" stroke="#6E8D9C" stroke-width="5" opacity=".7"><path d="M40 170C40 255 80 300 140 330"/><path d="M480 170C480 255 440 300 380 330"/></g>
+      <circle cx="148" cy="236" r="19" fill="#C9DCE4"/>
+      <path class="path" d="M28 236L131 236"/>
+      <g class="tip"><circle cx="148" cy="236" r="4" fill="var(--needle)"/></g>
+      <circle class="ring" cx="148" cy="236" r="19"/>
+      <text x="28" y="222" fill="#A9C4D0" font-size="14" font-family="IBM Plex Sans,sans-serif">Entry</text>
+      <text x="122" y="276" fill="#A9C4D0" font-size="14" font-family="IBM Plex Sans,sans-serif">Nodule</text>
+      <text x="28" y="388" fill="#6E8D9C" font-size="12" font-family="IBM Plex Sans,sans-serif">Schematic of my 3D Slicer biopsy plan, not patient data</text>
+    </svg>
+    <div class="readout"><span><b>58.78 mm</b> path, <b>84°</b> to vertical, pleura crossed <b>once</b></span><button type="button" id="replay">Replay path</button></div>
+  </figure>
+</div></div>
 
-            <aside class="dossier-card" aria-label="Research and mobility summary">
-              <div class="dossier-header">
-                <span class="dossier-label">Research &amp; Mobility Profile</span>
-                <span class="dossier-status">● TFG Track</span>
-              </div>
-              <ul class="dossier-list">
-                <li class="dossier-row">
-                  <span class="dossier-key">Institution</span>
-                  <span class="dossier-val">University of Deusto — Bilbao, Spain</span>
-                </li>
-                <li class="dossier-row">
-                  <span class="dossier-key">Target TFG Research Hubs</span>
-                  <span class="dossier-val">FAU Erlangen-Nürnberg · TUM · RWTH Aachen · UK Golden Triangle</span>
-                </li>
-                <li class="dossier-row">
-                  <span class="dossier-key">Language Preparation</span>
-                  <span class="dossier-val">German (6 hrs/week → B2/C1) · English · Spanish</span>
-                </li>
-                <li class="dossier-row">
-                  <span class="dossier-key">Core Intersection</span>
-                  <span class="dossier-val">Clinical Hardware · Patent Strategy · Life Sciences VC</span>
-                </li>
-              </ul>
-            </aside>
-          </div>
-        </section>
+<section id="about" class="alt"><div class="wrap about">
+  <div>
+    <h2>I want to make the device, not just read about it.</h2>
+    <p style="margin-top:1.2rem">My goal is to develop medical hardware that solves hard clinical problems. To get there I’m studying the parts that turn a good idea into a real product: intellectual property, how patents are built, and how international venture capital backs life sciences.</p>
+    <p>I’m also preparing to work across countries. Alongside my coursework I spend six hours every week on German, aiming for B2/C1, so I can study and research inside Germany’s and the UK’s top engineering hubs.</p>
+    <p>Outside class I’m a student representative and an on-call speaker at university open days, sharing what Biomedical Engineering is really like with prospective students and their families.</p>
+  </div>
+  <dl class="facts">
+    <dt>Studying</dt><dd>Biomedical Engineering, University of Deusto, Bilbao</dd>
+    <dt>Learning</dt><dd>German (B2/C1 target), patents, medtech venture capital</dd>
+    <dt>Looking for</dt><dd>Principal investigators, clinical researchers and engineers to learn from</dd>
+    <dt>Thesis target</dt><dd>FAU Erlangen-Nürnberg, TUM, RWTH Aachen or a UK Golden Triangle university</dd>
+  </dl>
+</div></section>
 
-        <section id="about">
-          <div class="section-title">About &amp; Vision</div>
-          <div class="content-panel">
-            <p>
-              I am a Biomedical Engineering student at the University of Deusto (Bilbao) working toward developing medical devices and hardware that solve complex clinical challenges.
-            </p>
-            <p>
-              Great engineering only helps patients when it survives the path out of the lab. Alongside my technical coursework, I focus on what turns promising prototypes into real hospital solutions: securing intellectual property, understanding patent development, and studying how international venture capital backs life sciences innovation.
-            </p>
-          </div>
-        </section>
+<section id="path"><div class="wrap">
+  <div class="intro"><h2>The plan, in order</h2><p>Each step feeds the next, and the last one is the reason for all of them.</p></div>
+  <ol class="path-list">
+    <li class="now"><h3>Now</h3><p>Coursework, projects and German, building a technical base in imaging, signals and data.</p></li>
+    <li><h3>Fourth year, abroad</h3><p>Study in Germany with an intermediate level of German, and grow my network.</p></li>
+    <li><h3>Bachelor’s thesis</h3><p>Develop my TFG inside a leading medical and engineering research hub.</p></li>
+    <li><h3>Industry in the UK or Germany</h3><p>Work in the field to learn how devices are developed, approved and sold.</p></li>
+    <li><h3>My own start-up</h3><p>Devices for people with chronic disease, then growth into the Basque Country, Spain and beyond.</p></li>
+  </ol>
+  <p style="margin-top:2.2rem;color:var(--slate)">The company is meant to create jobs in the Basque Country and help small medical companies there develop their products.</p>
+</div></section>
 
-        <section id="pillars">
-          <div class="section-title">Core Engineering Focus</div>
-          <ul class="pillars-grid">
-            <li class="pillar-card">
-              <span class="pillar-num">01 / HARDWARE</span>
-              <h3>Medical Devices &amp; Hardware</h3>
-              <p>
-                Exploring surgical robotics, smart implants, and biomechanics to understand how mechanical and electronic systems operate safely inside clinical workflows.
-              </p>
-            </li>
-            <li class="pillar-card">
-              <span class="pillar-num">02 / TRANSLATION</span>
-              <h3>Translational Medicine</h3>
-              <p>
-                Navigating how a lab prototype reaches a real hospital—bridging clinical validation, regulatory constraints, IP protection, and life sciences commercialization.
-              </p>
-            </li>
-            <li class="pillar-card">
-              <span class="pillar-num">03 / DATA &amp; AI</span>
-              <h3>AI &amp; Software Integration</h3>
-              <p>
-                Applying biomedical data analysis and machine learning pipelines to enhance diagnostic precision and extract actionable signals from physiological data.
-              </p>
-            </li>
-          </ul>
-        </section>
+<section id="projects" class="alt"><div class="wrap">
+  <div class="intro"><h2>Projects</h2><p>Coursework and personal work, with the real numbers and the limits of each result.</p></div>
+  <div class="projects">
 
-        <section id="work">
-          <div class="section-title">Current Work &amp; Technical Exploration</div>
-          <div class="projects-grid">
-            <article class="project-card">
-              <div>
-                <span class="project-badge">Hardware &amp; IP</span>
-                <h3>Medical Device &amp; Patent Landscape Analysis</h3>
-                <p>
-                  Dissecting clinical hardware specifications alongside EPO and USPTO patent filings in surgical robotics and smart implants to study how technical differentiation is protected.
-                </p>
-              </div>
-              <div class="project-meta">
-                <div class="project-tags">
-                  <span class="project-tag">Surgical Robotics</span>
-                  <span class="project-tag">Smart Implants</span>
-                  <span class="project-tag">Patent Claims</span>
-                </div>
-                <!-- Replace with a link to a PDF brief or Notion page once published -->
-                <span class="project-note">Focus Area · Prior-Art &amp; Clinical Spec Reviews</span>
-              </div>
-            </article>
+    <article class="proj wip">
+      <div>
+        <span class="tag live">In progress</span><span class="tag">R</span><span class="tag">dplyr</span><span class="tag">ggplot2</span><span class="tag">Web app</span>
+        <h3>Alzheimer’s disease data explorer</h3>
+        <p>For Technical and Scientific Programming I’m running the first four stages of the scientific data process on a Kaggle dataset of Alzheimer’s patients: loading, cleaning, transforming with dplyr, and exploring with ggplot2. The result will be an interactive web app with dynamic graphs.</p>
+        <p>I chose this dataset because it joins two of my interests: health data and diagnosis that comes earlier and more precisely.</p>
+        <a class="btn" href="#" aria-disabled="true">Web app link coming soon</a>
+        <a href="https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-dataset" target="_blank" rel="noreferrer" style="margin-left:.8rem">View dataset on Kaggle</a>
+      </div>
+      <dl class="stats teal"><div><dt>3+</dt><dd>different ggplot2 graphs</dd></div><div><dt>4</dt><dd>stages: framing, collection, preparation, visualisation</dd></div></dl>
+    </article>
 
-            <article class="project-card">
-              <div>
-                <span class="project-badge">Data &amp; AI</span>
-                <h3>Biomedical Signal &amp; Diagnostic Modeling</h3>
-                <p>
-                  Building Python and R workflows for preprocessing physiological signals, extracting clinical features, and evaluating diagnostic classification models.
-                </p>
-              </div>
-              <div class="project-meta">
-                <div class="project-tags">
-                  <span class="project-tag">Python</span>
-                  <span class="project-tag">R</span>
-                  <span class="project-tag">Diagnostic AI</span>
-                </div>
-                <!-- Replace with your GitHub repository link when ready -->
-                <span class="project-note">Coursework &amp; Independent Scripts</span>
-              </div>
-            </article>
+    <article class="proj">
+      <div>
+        <span class="tag">3D Slicer</span><span class="tag">Python</span><span class="tag">Radiomics</span><span class="tag">Introduction to Biomedical Engineering</span>
+        <h3>Lung nodule characterisation and CT-guided biopsy planning</h3>
+        <p>With three teammates I analysed a chest CT in 3D Slicer: segmented a solid nodule, built a 3D model, planned a virtual needle path, registered a displaced scan back to the original, and extracted radiomic features.</p>
+        <p>The plan crosses the pleura once and avoids ribs and vessels. The radiomics look benign on the images, but I learned why the numbers alone are not conclusive.</p>
+        <details><summary>What I learned about the limits</summary>
+          <p>The mean intensity of −171.8 HU looks far too low for soft tissue. It reflects a rim of aerated lung inside my segment (17.5% of voxels below −500 HU), not the density of the lesion. Sphericity of 0.77 was pulled down by 2.5 mm slices and by the nodule resting on the diaphragm. The software gives numbers easily; interpreting them means knowing what produced them.</p>
+          <p>At about 18 mm, the nodule is above the 8 mm Fleischner threshold for further work-up, which supports planning a biopsy. Next steps would be respiratory motion, non-rigid registration and AI-assisted segmentation.</p>
+        </details>
+      </div>
+      <dl class="stats"><div><dt>3.01 cm³</dt><dd>nodule volume, about 18 mm equivalent diameter</dd></div><div><dt>58.78 mm</dt><dd>planned needle path</dd></div><div><dt>10 mm</dt><dd>simulated shift recovered by rigid registration</dd></div></dl>
+    </article>
 
-            <article class="project-card">
-              <div>
-                <span class="project-badge">Biomechanics</span>
-                <h3>Biomedical Instrumentation &amp; Prototyping</h3>
-                <p>
-                  Hands-on university laboratory work in sensor interfacing, physiological measurement systems, and biomechanical evaluation of medical hardware concepts.
-                </p>
-              </div>
-              <div class="project-meta">
-                <div class="project-tags">
-                  <span class="project-tag">Biomechanics</span>
-                  <span class="project-tag">Instrumentation</span>
-                  <span class="project-tag">Prototyping</span>
-                </div>
-                <span class="project-note">University of Deusto · Engineering Labs</span>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section id="mobility">
-          <div class="section-title">International Mobility &amp; University Outreach</div>
-          <div class="two-col-grid">
-            <div class="info-card">
-              <span class="info-badge">Bachelor's Thesis (TFG) &amp; Language</span>
-              <h3>Germany &amp; UK Research Track</h3>
-              <p>
-                Preparing to execute my Bachelor’s Thesis (TFG) inside leading European MedTech ecosystems—targeting <strong>FAU Erlangen-Nürnberg, TUM, and RWTH Aachen</strong> in Germany, or the <strong>UK’s Golden Triangle</strong>. Alongside coursework, I dedicate <strong>6 hours every week to German</strong> toward B2/C1 proficiency.
-              </p>
-            </div>
-
-            <div class="info-card">
-              <span class="info-badge">Community &amp; Communication</span>
-              <h3>Student Representation &amp; Open-Day Speaker</h3>
-              <p>
-                Active in student representation at the University of Deusto and serving as an <strong>on-call speaker for university open days</strong>—introducing prospective students and their families to Biomedical Engineering and the real-world impact of medical technology.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section id="arsenal">
-          <div class="section-title">Technical &amp; Translational Arsenal</div>
-          <div class="content-panel">
-            <div class="tag-grid">
-              <div class="tag-group">
-                <div class="tag-group-label">Engineering &amp; Domains</div>
-                <div class="tag-list">
-                  <span class="tag">Medical Devices</span>
-                  <span class="tag">Surgical Robotics</span>
-                  <span class="tag">Smart Implants</span>
-                  <span class="tag">Biomechanics</span>
-                  <span class="tag">Hardware Prototyping</span>
-                </div>
-              </div>
-
-              <div class="tag-group">
-                <div class="tag-group-label">Data, AI &amp; Computation</div>
-                <div class="tag-list">
-                  <span class="tag">Python</span>
-                  <span class="tag">R</span>
-                  <span class="tag">Biomedical Signal Processing</span>
-                  <span class="tag">Diagnostic Data Modeling</span>
-                  <span class="tag">JavaScript / Web</span>
-                </div>
-              </div>
-
-              <div class="tag-group">
-                <div class="tag-group-label">Translation &amp; Commercialization</div>
-                <div class="tag-list">
-                  <span class="tag">Translational Medicine</span>
-                  <span class="tag">Intellectual Property &amp; Patents</span>
-                  <span class="tag">Prior-Art Search (EPO / USPTO)</span>
-                  <span class="tag">Life Sciences VC Fundamentals</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <footer class="footer-cta">
-          <div>
-            <h2>Connect on MedTech Research &amp; TFG Opportunities</h2>
-            <p>
-              I am always eager to learn from Principal Investigators, clinical researchers, and engineers building the next generation of medical technology.
-            </p>
-          </div>
-          <div class="actions" style="margin-top: 0;">
-            <a class="button primary" href="mailto:ionander.bolado@opendeusto.es">ionander.bolado@opendeusto.es</a>
-            <a class="button" href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer">LinkedIn</a>
-          </div>
-        </footer>
-
-        <div class="footer-bottom">
-          <span>Ion Ander Bolado · Biomedical Engineering (University of Deusto)</span>
-          <span>Bilbao, Spain · Open to TFG Lab Placements in Germany &amp; the UK</span>
+    <div class="small">
+      <article class="proj">
+        <div>
+          <span class="tag">Python</span><span class="tag">Signal processing</span><span class="tag">EEG</span>
+          <h3>EEG signal quality and artifact analysis</h3>
+          <p>In a signals lab I checked sampling and aliasing, ranked 14 channels by contact quality, band-pass filtered between 1 and 40 Hz, and classified artifacts such as eye blinks using the accelerometer.</p>
+          <p>Dropping the worst channel, P7, raises usable recording epochs from 26.60% to over 70%.</p>
         </div>
-      </main>
+      </article>
+      <article class="proj">
+        <div>
+          <span class="tag">Virtual reality</span><span class="tag">Meta Quest 3</span>
+          <h3>Human anatomy in VR</h3>
+          <p>Explored the skeletal, muscular, nervous and cardiovascular systems in 3D with the Ebers Anatomy app, and reflected on where moving and rotating structures helps understanding and where it falls short.</p>
+        </div>
+      </article>
     </div>
   </div>
+</div></section>
+
+<section id="focus"><div class="wrap">
+  <div class="intro"><h2>Where my engineering is pointed</h2></div>
+  <div class="focus">
+    <div><h3>Medical devices and hardware</h3><ul><li>Surgical robotics</li><li>Smart implants</li><li>Biomechanics</li></ul></div>
+    <div><h3>Translational medicine</h3><ul><li>How a lab prototype reaches a real hospital</li><li>Patents and intellectual property</li><li>Venture capital in life sciences</li></ul></div>
+    <div><h3>AI and software</h3><ul><li>Sharper diagnostics through data</li><li>Medical image analysis</li><li>Signal processing</li></ul></div>
+  </div>
+</div></section>
+
+<section id="contact" class="contact"><div class="wrap">
+  <h2>Working on something in medtech? Let’s talk.</h2>
+  <p style="margin:1rem 0 1.8rem">I’m especially keen to hear from researchers and engineers in Germany and the UK.</p>
+  <div class="btns"><a class="btn solid" href="mailto:ionander.bolado@opendeusto.es">ionander.bolado@opendeusto.es</a><a class="btn" href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer">LinkedIn</a></div>
+</div></section>
+</main>
+<footer><div class="wrap">© Ion Ander Bolado. Bilbao, Basque Country.</div></footer>
+
+<script>
+(function(){
+  var s=document.getElementById('scan');
+  function play(){s.classList.remove('go');void s.offsetWidth;s.classList.add('go');}
+  document.getElementById('replay').addEventListener('click',play);
+  window.addEventListener('load',function(){setTimeout(play,200)});
+})();
+</script>
 </body>
 </html>
