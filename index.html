@@ -645,4 +645,1156 @@
       margin-bottom: 4px;
     }
 
-    .fact-card--
+    .fact-card--signal .fact-label {
+      color: #a83d1e;
+    }
+
+    .fact-value {
+      font-size: 0.96rem;
+      color: var(--ink-primary);
+      font-weight: 500;
+    }
+
+    /* Flagship Project Showcase Cards */
+    .project-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .proj-featured {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 28px;
+      padding: clamp(24px, 3.5vw, 38px);
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      background: rgba(13, 122, 109, 0.1);
+      color: var(--accent-teal-deep);
+    }
+
+    .tag--signal {
+      background: rgba(217, 93, 57, 0.13);
+      color: #a83d1e;
+    }
+
+    .tag--dark {
+      background: var(--ink-primary);
+      color: var(--ink-inverse);
+    }
+
+    /* Interactive CardioPatch ECG Telemetry Widget (Assimilated from widgets.js) */
+    .ecg-widget-box {
+      background: var(--band-mist);
+      border: 1px solid var(--border-subtle);
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .telemetry-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #ffffff;
+      color: var(--ink-primary);
+      padding: 12px 16px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .play-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent-crimson);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .play-circle:hover {
+      transform: scale(1.06);
+    }
+
+    .waveform-box {
+      flex: 1;
+      height: 52px;
+      background: #f5f7f8;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .waveform-box canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .preset-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .preset-btn {
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      color: var(--ink-primary);
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .preset-btn.active {
+      background: var(--ink-primary);
+      color: #ffffff;
+      border-color: var(--ink-primary);
+    }
+
+    /* Rigid Registration & Stats Module */
+    .reg-panel {
+      background: #0a171a;
+      color: #d6e4ea;
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .reg-stage {
+      position: relative;
+      height: 148px;
+      border-radius: 14px;
+      background: #102328;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .nodule-ref {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 2px dashed rgba(248, 250, 249, 0.7);
+      position: absolute;
+    }
+
+    .nodule-moving {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgba(13, 122, 109, 0.78);
+      border: 2px solid #4adbc8;
+      transform: translate(34px, -18px);
+      transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reg-stage.aligned .nodule-moving {
+      transform: translate(0px, 0px);
+    }
+
+    .stat-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat-chip {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .stat-chip strong {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .stat-chip span {
+      display: block;
+      font-size: 0.75rem;
+      color: #9fb5bf;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    /* EEG Quality Bars (Fixed Contrast & Typography) */
+    .eeg-box {
+      background: #0a171a;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 18px;
+      color: #e6f0f3;
+    }
+
+    .eeg-bar-row {
+      margin-top: 10px;
+    }
+
+    .eeg-bar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #c5d7de;
+      margin-bottom: 5px;
+    }
+
+    .eeg-track {
+      width: 100%;
+      height: 12px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .eeg-fill-low {
+      width: 26.6%;
+      height: 100%;
+      background: var(--accent-amber);
+      border-radius: var(--radius-pill);
+    }
+
+    .eeg-fill-high {
+      width: 72%;
+      height: 100%;
+      background: #2bc48a;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ==========================================================================
+       Lab & Founder's Log (Build-in-Public Chronological Feed)
+       ========================================================================== */
+    .log-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 24px;
+    }
+
+    .log-filter {
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      color: var(--ink-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .log-filter.active,
+    .log-filter:hover {
+      background: var(--ink-primary);
+      color: var(--ink-inverse);
+      border-color: var(--ink-primary);
+    }
+
+    .log-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .log-entry {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 22px 26px;
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .log-entry.hidden {
+      display: none;
+    }
+
+    .log-stamp {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .log-date {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .log-cat {
+      display: inline-block;
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(13, 122, 109, 0.11);
+      color: var(--accent-teal-deep);
+    }
+
+    .log-cat--signal {
+      background: rgba(217, 93, 57, 0.13);
+      color: #a83d1e;
+    }
+
+    .log-entry h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+
+    .log-entry p {
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+      max-width: 72ch;
+    }
+
+    /* Roadmap & Focus Pillars */
+    .pillar-num {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent-teal);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .band--obsidian .pillar-num {
+      color: #5eead4;
+    }
+
+    .focus-list {
+      margin-top: 12px;
+      padding-left: 18px;
+      color: rgba(248, 250, 249, 0.78);
+      font-size: 0.94rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Contact & Fuel the Sprint */
+    .sponsor-panel {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      padding: 26px 28px;
+    }
+
+    .site-footer {
+      border-radius: var(--radius-band);
+      background: var(--band-porcelain);
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-secondary);
+      padding: 28px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 940px) {
+      .split-2,
+      .grid-2,
+      .grid-3,
+      .proj-featured {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .log-entry {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .stat-trio {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .levitate-device { animation: none !important; }
+      .scan-panel .path { stroke-dashoffset: 0; animation: none !important; }
+      .scan-panel .tip { opacity: 1; animation: none !important; }
+      .scan-panel .ring { animation: none !important; }
+      .two-tone-sweep::before,
+      .two-tone-sweep::after { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+
+    <!-- STICKY PILL NAVBAR (CardioPatch Chrome Architecture) -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-trigger" id="openDrawerBtn" aria-label="Open navigation menu">&#9776;</button>
+        <a href="#top" class="brand-mark">
+          <span class="brand-pulse"></span>
+          <span>Ion Ander Bolado</span>
+        </a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#about" class="nav-link nav-wipe">About</a></li>
+        <li><a href="#projects" class="nav-link nav-wipe">Projects</a></li>
+        <li><a href="#log" class="nav-link nav-wipe">Lab Log</a></li>
+        <li><a href="#roadmap" class="nav-link nav-wipe">Roadmap</a></li>
+        <li><a href="#focus" class="nav-link nav-wipe">Focus</a></li>
+      </ul>
+
+      <div class="topbar-right">
+        <a href="#contact" class="btn-roll btn-roll--teal btn-wipe">
+          <span class="roll-track"><span>Get in touch</span><span>Get in touch &rarr;</span></span>
+        </a>
+      </div>
+    </header>
+
+    <!-- SLIDE-OUT OBSIDIAN DRAWER -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <aside class="nav-drawer" id="navDrawer" aria-hidden="true">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span class="eyebrow eyebrow--light">Navigation &middot; Bilbao</span>
+          <button class="menu-trigger" id="closeDrawerBtn" aria-label="Close navigation menu">&#10005;</button>
+        </div>
+        <ul class="drawer-links">
+          <li><a href="#about" class="btn-wipe drawer-link"><span>01 &middot; About &amp; Mobility</span><small style="font-size:0.75rem;opacity:0.7;">Deusto &rarr; DE / UK</small></a></li>
+          <li><a href="#projects" class="btn-wipe drawer-link"><span>02 &middot; Engineering Work</span><small style="font-size:0.75rem;opacity:0.7;">CardioPatch, CT, EEG</small></a></li>
+          <li><a href="#log" class="btn-wipe drawer-link"><span>03 &middot; Lab &amp; Founder Log</span><small style="font-size:0.75rem;opacity:0.7;">Build-in-public notes</small></a></li>
+          <li><a href="#roadmap" class="btn-wipe drawer-link"><span>04 &middot; Trajectory &amp; Focus</span><small style="font-size:0.75rem;opacity:0.7;">TFG &amp; MedTech R&amp;D</small></a></li>
+          <li><a href="#contact" class="btn-wipe drawer-link"><span>05 &middot; Contact &amp; Sponsor</span><small style="font-size:0.75rem;opacity:0.7;">Connect or fuel R&amp;D</small></a></li>
+        </ul>
+      </div>
+      <p style="font-size:0.82rem;opacity:0.72;border-top:1px solid rgba(255,255,255,0.16);padding-top:16px;">
+        Biomedical Engineering &middot; University of Deusto, Bilbao. Building towards clinical hardware, IP, and translational MedTech.
+      </p>
+    </aside>
+
+    <!-- BAND 1: HERO (Deep Surgical Fjord + Levitating CT Schematic) -->
+    <section class="band band--fjord" id="top">
+      <div class="radial-rings"></div>
+      <div class="split-2" style="position:relative;z-index:2;">
+        <div>
+          <span class="eyebrow eyebrow--light">Biomedical Engineering &middot; Bilbao, Spain</span>
+          <h1 class="display-hero" style="margin-top:18px;">
+            Medical devices, from the lab bench <span class="serif-italic">to the</span> patient’s bedside.
+          </h1>
+          <p style="margin-top:18px;font-size:1.08rem;opacity:0.9;max-width:560px;">
+            I’m Ion Ander Bolado, a Biomedical Engineering student at the University of Deusto. I work across medical imaging, wearable biosignals, and intellectual property—learning how clinical hardware goes from early prototype to real hospital care.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+            <a href="#projects" class="btn-roll btn-roll--light btn-wipe">
+              <span class="roll-track"><span>Explore Projects</span><span>Explore Projects &rarr;</span></span>
+            </a>
+            <a href="#log" class="btn-roll btn-roll--outline btn-wipe">
+              <span class="roll-track"><span>Read Lab Log</span><span>Read Lab Log &rarr;</span></span>
+            </a>
+            <a href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer" class="btn-roll btn-roll--outline btn-wipe">
+              <span class="roll-track"><span>LinkedIn</span><span>LinkedIn &rarr;</span></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- LEVITATING INTERACTIVE CT BIOPSY PLAN -->
+        <figure class="scan-panel levitate-device" id="scan" style="margin:0;">
+          <svg viewBox="0 0 520 390" role="img" aria-label="Axial chest CT schematic showing a 58.78 mm biopsy needle trajectory reaching a lung nodule">
+            <ellipse cx="260" cy="186" rx="236" ry="156" fill="#173238" stroke="#365e66" stroke-width="2" />
+            <path d="M150 88C95 98 78 186 98 258C118 301 182 304 212 266C236 226 236 128 214 98C196 80 170 82 150 88Z" fill="#061012" stroke="#284950" />
+            <path d="M370 88C425 98 442 186 422 258C402 301 338 304 308 266C292 226 292 128 306 98C322 80 350 82 370 88Z" fill="#061012" stroke="#284950" />
+            <ellipse cx="262" cy="200" rx="34" ry="42" fill="#4f7882" opacity="0.65" />
+            <circle cx="260" cy="312" r="22" fill="#9fbcc4" />
+            <g fill="none" stroke="#628a94" stroke-width="5" opacity="0.7">
+              <path d="M40 166C40 250 80 296 140 326" />
+              <path d="M480 166C480 250 440 296 380 326" />
+            </g>
+            <circle cx="148" cy="232" r="19" fill="#c9e0e6" />
+            <path class="path" d="M28 232L131 232" />
+            <g class="tip"><circle cx="148" cy="232" r="4.5" fill="var(--accent-signal)" /></g>
+            <circle class="ring" cx="148" cy="232" r="19" />
+            <text x="28" y="216" fill="#b8d1d9" font-size="13" font-family="JetBrains Mono, monospace">Entry</text>
+            <text x="120" y="272" fill="#b8d1d9" font-size="13" font-family="JetBrains Mono, monospace">Nodule</text>
+            <text x="28" y="378" fill="#6f919b" font-size="11.5" font-family="JetBrains Mono, monospace">Schematic of 3D Slicer biopsy trajectory (synthetic geometry)</text>
+          </svg>
+          <div class="readout">
+            <span><b>58.78 mm</b> path &middot; <b>84&deg;</b> angle &middot; pleura crossed <b>1&times;</b></span>
+            <button type="button" class="mini-btn" id="replayScan">Replay path</button>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- BAND 2: ABOUT & INTERNATIONAL MOBILITY -->
+    <section class="band band--porcelain two-tone-sweep" id="about">
+      <div class="split-2">
+        <div>
+          <span class="eyebrow">01 &middot; About &amp; Translational Vision</span>
+          <h2 class="display-section" style="margin-top:14px;">
+            I want to build the device, <span class="serif-italic">not only</span> read about it.
+          </h2>
+          <p style="margin-top:16px;color:var(--ink-secondary);font-size:1.02rem;">
+            My goal is to develop medical hardware that solves hard clinical problems. To get there, I pair my Biomedical Engineering coursework at the University of Deusto with the parts that turn an early prototype into a real clinical product: securing intellectual property, understanding patent claims, and studying how international venture capital backs life sciences.
+          </p>
+          <p style="margin-top:12px;color:var(--ink-secondary);font-size:1.02rem;">
+            Preparing to work across European research ecosystems is part of my weekly routine. Alongside full-time engineering classes, I dedicate <strong>six hours every week to mastering German</strong> (targeting B2/C1) so I can execute my Bachelor’s Thesis (TFG) inside Germany’s or the UK’s leading biomedical hubs.
+          </p>
+          <p style="margin-top:12px;color:var(--ink-secondary);font-size:1.02rem;">
+            On campus, I serve as a student representative and volunteer as an on-call speaker during university open days—explaining biomedical hardware and clinical engineering pathways to prospective students and their families.
+          </p>
+        </div>
+
+        <div class="fact-stack focus-zoom-group">
+          <div class="fact-card card-wipe focus-zoom-frame">
+            <div class="fact-label">Home Institution</div>
+            <div class="fact-value">Biomedical Engineering, University of Deusto (Bilbao, Basque Country)</div>
+          </div>
+          <div class="fact-card fact-card--signal card-wipe focus-zoom-frame">
+            <div class="fact-label">Bachelor’s Thesis (TFG) Targets</div>
+            <div class="fact-value">FAU Erlangen-N&uuml;rnberg, TUM, RWTH Aachen, or UK Golden Triangle labs</div>
+          </div>
+          <div class="fact-card card-wipe focus-zoom-frame">
+            <div class="fact-label">Languages &amp; Discipline</div>
+            <div class="fact-value">Spanish (Native) &middot; English (C1) &middot; German (B2/C1 Track &middot; 6 hrs/week)</div>
+          </div>
+          <div class="fact-card card-wipe focus-zoom-frame">
+            <div class="fact-label">Looking to Connect With</div>
+            <div class="fact-value">Principal investigators, clinical researchers, and MedTech hardware engineers</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAND 3: ENGINEERING & MEDTECH PROJECTS -->
+    <section class="band band--sage two-tone-sweep" id="projects">
+      <span class="eyebrow">02 &middot; Selected Engineering &amp; MedTech Work</span>
+      <h2 class="display-section" style="margin:12px 0 10px;">Projects with real signals, metrics, and limits.</h2>
+      <p style="color:var(--ink-secondary);max-width:680px;margin-bottom:28px;">
+        From wearable cardiac telemetry and Health 4.0 system architecture to 3D CT surgical planning and EEG artifact rejection.
+      </p>
+
+      <div class="project-showcase">
+
+        <!-- FEATURED PROJECT 1: CARDIOPATCH (With Live ECG Canvas Simulator from widgets.js) -->
+        <article class="proj-featured card-wipe">
+          <div>
+            <div class="tag-row">
+              <span class="tag tag--signal">Featured Concept &amp; Prototype</span>
+              <span class="tag">Edge AI</span>
+              <span class="tag">Biosignals</span>
+              <span class="tag">Health 4.0</span>
+              <span class="tag">IP67 Wearable</span>
+            </div>
+            <h3 style="font-size:1.55rem;margin-bottom:10px;">
+              CardioPatch: 24/7 Wearable Cardiac Patch for Silent Heart Attack Warning
+            </h3>
+            <p style="color:var(--ink-secondary);font-size:0.97rem;margin-bottom:12px;">
+              Co-designed in a 4-person biomedical engineering team (Group 06, University of Deusto) to solve a clear clinical gap: nearly <strong>45% of myocardial infarctions occur without classic chest pain</strong>, while retrospective Holter patches only report data days later.
+            </p>
+            <p style="color:var(--ink-secondary);font-size:0.97rem;margin-bottom:18px;">
+              We architected a reusable IP67 shower-proof electronics hub paired with disposable hypoallergenic silicone patches. Guided by stakeholder interviews with cardiology and cardiac rehab nursing, the system runs lightweight on-device AI to suppress false alarms during stair climbing while escalating real ST-segment shifts and skin-temperature drops with a 30-second ECG strip.
+            </p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <!-- Update href once CardioPatch is deployed to its own Vercel URL -->
+              <a href="#ecg-demo" class="btn-roll btn-roll--teal btn-wipe">
+                <span class="roll-track"><span>Test Live ECG Demo</span><span>Test Live ECG Demo &rarr;</span></span>
+              </a>
+            </div>
+          </div>
+
+          <!-- LIVE INTERACTIVE ECG SIMULATOR WIDGET (Extracted from widgets.js) -->
+          <div class="ecg-widget-box" id="ecg-demo">
+            <span class="eyebrow" style="margin-bottom:12px;">Interactive Prototype Signal Simulator</span>
+            <p style="font-size:0.88rem;color:var(--ink-secondary);margin-bottom:14px;">
+              Switch physiological states to see how CardioPatch separates everyday exertion from a silent cardiac warning sign:
+            </p>
+
+            <div class="telemetry-bar">
+              <button class="play-circle" id="telemetryPlayBtn" aria-label="Play or pause ECG waveform">&#10074;&#10074;</button>
+              <div class="waveform-box">
+                <canvas id="ecgCanvas"></canvas>
+              </div>
+            </div>
+
+            <div class="preset-pills">
+              <button type="button" class="preset-btn active" data-ecg-mode="rest">At Rest</button>
+              <button type="button" class="preset-btn" data-ecg-mode="stairs">Climbing Stairs</button>
+              <button type="button" class="preset-btn" data-ecg-mode="warning">Silent Warning</button>
+            </div>
+
+            <p id="telemetryReadout" style="margin-top:12px;font-family:var(--font-mono);font-size:0.78rem;color:var(--ink-secondary);line-height:1.5;"></p>
+          </div>
+        </article>
+
+        <!-- FEATURED PROJECT 2: LUNG NODULE CT BIOPSY & RADIOMICS -->
+        <article class="proj-featured card-wipe">
+          <div>
+            <div class="tag-row">
+              <span class="tag">3D Slicer</span>
+              <span class="tag">Python</span>
+              <span class="tag">Radiomics</span>
+              <span class="tag">Rigid Registration</span>
+              <span class="tag">Chest CT</span>
+            </div>
+            <h3 style="font-size:1.5rem;margin-bottom:10px;">
+              Lung Nodule Characterisation &amp; CT-Guided Biopsy Planning
+            </h3>
+            <p style="color:var(--ink-secondary);font-size:0.97rem;margin-bottom:12px;">
+              Segmented a solid pulmonary nodule on chest CT in 3D Slicer, reconstructed a 3D anatomical model, planned a single-pleura-crossing needle path avoiding ribs and major vessels, recovered a 10 mm simulated displacement via mutual-information rigid registration, and extracted radiomic features.
+            </p>
+            <p style="color:var(--ink-secondary);font-size:0.97rem;">
+              <strong>Critical limits learned:</strong> A raw mean intensity of <strong>&minus;171.8 HU</strong> looked artificially low for soft tissue because <strong>17.5%</strong> of segmented voxels captured aerated lung along the boundary rim. At ~18 mm equivalent diameter, the lesion exceeds the <strong>8 mm Fleischner threshold</strong>, justifying biopsy planning while highlighting the need for respiratory motion compensation.
+            </p>
+          </div>
+
+          <div class="reg-panel">
+            <div class="reg-stage aligned" id="regStage">
+              <div class="nodule-ref" title="Reference CT segmentation"></div>
+              <div class="nodule-moving" title="Registered scan volume"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:#9fb5bf;">
+                Dashed: reference &middot; Teal: 10 mm shift aligned
+              </span>
+              <button type="button" class="mini-btn" id="replayReg">Replay alignment</button>
+            </div>
+            <div class="stat-trio">
+              <div class="stat-chip">
+                <strong>3.01 cm&sup3;</strong>
+                <span>Nodule volume (~18 mm)</span>
+              </div>
+              <div class="stat-chip">
+                <strong>58.78 mm</strong>
+                <span>Planned needle trajectory</span>
+              </div>
+              <div class="stat-chip">
+                <strong>10 mm</strong>
+                <span>Shift recovered via registration</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- SECONDARY 2-COLUMN GRID: EEG & ALZHEIMER'S -->
+        <div class="grid-2 focus-zoom-group">
+          <article class="card card-wipe focus-zoom-frame">
+            <div class="tag-row">
+              <span class="tag">Python</span>
+              <span class="tag">Signal Processing</span>
+              <span class="tag">14-Ch EEG</span>
+            </div>
+            <h3 style="font-size:1.32rem;margin-bottom:10px;">
+              EEG Signal Quality &amp; Artifact Rejection
+            </h3>
+            <p style="color:var(--ink-secondary);font-size:0.95rem;">
+              Audited sampling and aliasing, ranked 14 scalp channels by electrode contact quality, applied a 1–40 Hz bandpass filter, and isolated ocular eye-blink artifacts using synchronous accelerometer data. Removing a single noisy electrode (<strong>P7</strong>) rescued recording usability from <strong>26.60% to over 70%</strong>.
+            </p>
+
+            <div class="eeg-box">
+              <svg viewBox="0 0 360 72" style="width:100%;height:auto;display:block;" aria-label="EEG trace showing ocular eye blink spike">
+                <polyline fill="none" stroke="#eab308" stroke-width="2.5" points="8,40 36,36 64,42 92,38 118,41 134,12 146,64 160,36 188,41 216,37 244,42 272,38 300,41 328,37 352,40" />
+                <text x="114" y="68" fill="#fde047" font-size="11" font-family="JetBrains Mono, monospace">eye blink artifact</text>
+              </svg>
+
+              <div class="eeg-bar-row">
+                <div class="eeg-bar-meta">
+                  <span>All 14 channels</span>
+                  <span>26.60% usable</span>
+                </div>
+                <div class="eeg-track"><div class="eeg-fill-low"></div></div>
+              </div>
+
+              <div class="eeg-bar-row">
+                <div class="eeg-bar-meta">
+                  <span>Without noisy P7 channel</span>
+                  <span style="color:#6ee7b7;">&gt;70.0% usable</span>
+                </div>
+                <div class="eeg-track"><div class="eeg-fill-high"></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card card-wipe focus-zoom-frame" style="display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div class="tag-row">
+                <span class="tag tag--signal">In Progress</span>
+                <span class="tag">R</span>
+                <span class="tag">dplyr</span>
+                <span class="tag">ggplot2</span>
+              </div>
+              <h3 style="font-size:1.32rem;margin-bottom:10px;">
+                Alzheimer’s Disease Clinical Data Explorer
+              </h3>
+              <p style="color:var(--ink-secondary);font-size:0.95rem;margin-bottom:12px;">
+                Cleaning, structuring, and modeling clinical and lifestyle biomarkers across 2,149 patient records in R using <code>dplyr</code> and <code>ggplot2</code> to identify which non-invasive variables best separate diagnosed patients from controls.
+              </p>
+              <p style="color:var(--ink-secondary);font-size:0.95rem;">
+                Built to explore how multivariate clinical screening tools can flag early cognitive decline before late-stage symptoms appear.
+              </p>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+              <a href="https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-dataset" target="_blank" rel="noreferrer" class="btn-roll btn-roll--primary btn-wipe">
+                <span class="roll-track"><span>Dataset on Kaggle</span><span>Dataset on Kaggle &rarr;</span></span>
+              </a>
+              <!-- Replace with your GitHub repository URL -->
+              <a href="https://github.com" target="_blank" rel="noreferrer" class="btn-roll btn-roll--outline btn-wipe">
+                <span class="roll-track"><span>Code on GitHub</span><span>Code on GitHub &rarr;</span></span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAND 4: LAB & FOUNDER'S LOG (Build-in-Public Notebook) -->
+    <section class="band band--porcelain two-tone-sweep" id="log">
+      <span class="eyebrow eyebrow--signal">03 &middot; Build-in-Public Notebook</span>
+      <h2 class="display-section" style="margin:12px 0 10px;">
+        Lab &amp; Founder’s <span class="serif-italic">Log</span>
+      </h2>
+      <p style="color:var(--ink-secondary);max-width:700px;">
+        A running record of what I am building, debugging, reading, and preparing—kept public so researchers, engineers, and backers can follow the real progression behind the CV.
+      </p>
+
+      <div class="log-controls" role="tablist" aria-label="Filter lab log entries">
+        <button type="button" class="log-filter active" data-log-filter="all">All Entries</button>
+        <button type="button" class="log-filter" data-log-filter="engineering">Hardware &amp; Signals</button>
+        <button type="button" class="log-filter" data-log-filter="translation">Translation &amp; IP</button>
+        <button type="button" class="log-filter" data-log-filter="mobility">Germany / Mobility</button>
+      </div>
+
+      <div class="log-feed" id="logFeed">
+        <article class="log-entry card-wipe" data-category="engineering">
+          <div class="log-stamp">
+            <span class="log-date">NOV 2026</span>
+            <span class="log-cat">Hardware &amp; Signals</span>
+          </div>
+          <div>
+            <h3>Shipping the CardioPatch Live ECG Simulator &amp; Health 4.0 Architecture</h3>
+            <p>
+              Built the interactive sinus-wave simulator and system comparison for CardioPatch with Group 06. Biggest clinical takeaway: cardiologists will abandon any continuous monitor that triggers false alerts during stair climbing—filtering normal sinus tachycardia on the edge is just as important as detecting ST-segment elevation.
+            </p>
+          </div>
+        </article>
+
+        <article class="log-entry card-wipe" data-category="mobility">
+          <div class="log-stamp">
+            <span class="log-date">NOV 2026</span>
+            <span class="log-cat log-cat--signal">Germany / Mobility</span>
+          </div>
+          <div>
+            <h3>6 Hours/Week German Sprint &amp; TFG Lab Mapping</h3>
+            <p>
+              Holding a steady six-hour weekly German study block alongside engineering coursework to hit B2/C1 readiness. Shortlisting research groups in surgical robotics, smart implants, and translational medical devices at FAU Erlangen-N&uuml;rnberg, TUM, and RWTH Aachen for my Bachelor’s Thesis.
+            </p>
+          </div>
+        </article>
+
+        <article class="log-entry card-wipe" data-category="engineering">
+          <div class="log-stamp">
+            <span class="log-date">OCT 2026</span>
+            <span class="log-cat">Hardware &amp; Signals</span>
+          </div>
+          <div>
+            <h3>Why Our CT Radiomics Mean Intensity Read &minus;171.8 HU</h3>
+            <p>
+              Post-mortem on our 3D Slicer lung nodule segmentation: the software output looked suspiciously low for a solid lesion until voxel-distribution checks showed 17.5% aerated lung tissue trapped along the segmentation border. Good reminder never to trust a radiomics feature table without inspecting the mask boundary first.
+            </p>
+          </div>
+        </article>
+
+        <article class="log-entry card-wipe" data-category="translation">
+          <div class="log-stamp">
+            <span class="log-date">SEP 2026</span>
+            <span class="log-cat log-cat--signal">Translation &amp; IP</span>
+          </div>
+          <div>
+            <h3>Open-Day Speaking &amp; Studying How Prototypes Survive Regulation</h3>
+            <p>
+              Volunteering as an on-call speaker for University of Deusto open days while diving into EU MDR device classification, patent claim drafting, and early-stage life sciences venture mechanics—mapping what it takes to eventually build a Basque MedTech hardware company.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- BAND 5: ROADMAP & ENGINEERING FOCUS -->
+    <section class="band band--mist two-tone-sweep" id="roadmap">
+      <span class="eyebrow">04 &middot; Trajectory</span>
+      <h2 class="display-section" style="margin:12px 0 26px;">Where I’m heading, step by step.</h2>
+
+      <div class="grid-3 focus-zoom-group">
+        <article class="card card-wipe focus-zoom-frame">
+          <span class="pillar-num">01 &middot; NOW (BILBAO)</span>
+          <h3 style="font-size:1.28rem;margin-bottom:8px;">Foundation at Deusto</h3>
+          <p style="color:var(--ink-secondary);font-size:0.95rem;">
+            Building depth in medical imaging, biosignal processing, Python/R analytics, and patent literacy while studying German six hours every week.
+          </p>
+        </article>
+
+        <article class="card card-wipe focus-zoom-frame">
+          <span class="pillar-num">02 &middot; FOURTH YEAR ABROAD</span>
+          <h3 style="font-size:1.28rem;margin-bottom:8px;">TFG in Germany or the UK</h3>
+          <p style="color:var(--ink-secondary);font-size:0.95rem;">
+            Developing my Bachelor’s Thesis inside a leading biomedical research hub (FAU, TUM, RWTH Aachen, or UK Golden Triangle) to work directly on clinical hardware.
+          </p>
+        </article>
+
+        <article class="card card-wipe focus-zoom-frame">
+          <span class="pillar-num">03 &middot; LONG-TERM VENTURE</span>
+          <h3 style="font-size:1.28rem;margin-bottom:8px;">MedTech R&amp;D &amp; Basque Startup</h3>
+          <p style="color:var(--ink-secondary);font-size:0.95rem;">
+            Gain industry experience in device approval and commercialization, then build a MedTech company that creates engineering jobs and supports health-tech growth in the Basque Country.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- BAND 6: ENGINEERING FOCUS PILLARS (Obsidian Contrast Band) -->
+    <section class="band band--obsidian" id="focus">
+      <span class="eyebrow eyebrow--light">05 &middot; Core Domains</span>
+      <h2 class="display-section" style="margin:12px 0 28px;">Where my engineering is pointed.</h2>
+
+      <div class="grid-3 focus-zoom-group">
+        <article class="card card-wipe focus-zoom-frame">
+          <span class="pillar-num">DOMAIN 01</span>
+          <h3 style="font-size:1.28rem;">Medical Devices &amp; Hardware</h3>
+          <ul class="focus-list">
+            <li>Surgical robotics &amp; image-guided intervention</li>
+            <li>Smart implants &amp; wearable physiological sensors</li>
+            <li>Biomechanics &amp; ergonomic device enclosures</li>
+          </ul>
+        </article>
+
+        <article class="card card-wipe focus-zoom-frame">
+          <span class="pillar-num">DOMAIN 02</span>
+          <h3 style="font-size:1.28rem;">Translational Medicine &amp; IP</h3>
+          <ul class="focus-list">
+            <li>Moving prototypes from lab bench to hospital floor</li>
+            <li>Intellectual property &amp; patent claim architecture</li>
+            <li>Life sciences venture capital &amp; regulatory strategy</li>
+          </ul>
+        </article>
+
+        <article class="card card-wipe focus-zoom-frame">
+          <span class="pillar-num">DOMAIN 03</span>
+          <h3 style="font-size:1.28rem;">AI &amp; Diagnostic Software</h3>
+          <ul class="focus-list">
+            <li>Edge AI for low-false-alarm patient monitoring</li>
+            <li>Medical image segmentation &amp; radiomics</li>
+            <li>Multichannel biosignal denoising &amp; feature extraction</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- BAND 7: CONTACT & FUEL THE SPRINT (GitHub Sponsors) -->
+    <section class="band band--fjord" id="contact">
+      <div class="split-2">
+        <div>
+          <span class="eyebrow eyebrow--light">06 &middot; Connect</span>
+          <h2 class="display-section" style="margin-top:14px;">
+            Working on medical hardware or clinical research? <span class="serif-italic">Let’s talk.</span>
+          </h2>
+          <p style="margin-top:14px;opacity:0.88;font-size:1.02rem;max-width:520px;">
+            I’m always glad to learn from principal investigators, clinical researchers, and MedTech engineers—especially teams in Germany, the UK, and the Basque Country.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+            <a href="mailto:ionander.bolado@opendeusto.es" class="btn-roll btn-roll--light btn-wipe">
+              <span class="roll-track"><span>ionander.bolado@opendeusto.es</span><span>Send an email &rarr;</span></span>
+            </a>
+            <a href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer" class="btn-roll btn-roll--outline btn-wipe">
+              <span class="roll-track"><span>LinkedIn</span><span>LinkedIn &rarr;</span></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sponsor-panel">
+          <span class="eyebrow eyebrow--light">Back the Build &amp; Mobility Sprint</span>
+          <h3 style="font-size:1.3rem;margin-top:14px;">Fuel upcoming hardware prototypes &amp; TFG relocation</h3>
+          <p style="margin-top:10px;font-size:0.93rem;opacity:0.86;">
+            If you follow my Lab Log and want to back my engineering trajectory directly, GitHub Sponsors funds concrete milestones: microcontroller and sensor components, Goethe German B2/C1 exam fees, and thesis relocation costs to Germany or the UK.
+          </p>
+          <div style="margin-top:18px;">
+            <!-- Replace with your approved GitHub Sponsors handle -->
+            <a href="https://github.com/sponsors" target="_blank" rel="noreferrer" class="btn-roll btn-roll--signal btn-wipe">
+              <span class="roll-track"><span>Support via GitHub Sponsors</span><span>Support via GitHub Sponsors &rarr;</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div>
+        <strong style="color:var(--ink-primary);">Ion Ander Bolado</strong> &middot; Biomedical Engineering, University of Deusto (Bilbao, Basque Country)
+      </div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;">
+        <a href="#top" style="color:var(--ink-secondary);text-decoration:none;font-weight:600;">Top &uarr;</a>
+        <a href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer" style="color:var(--accent-teal-deep);font-weight:600;text-decoration:none;">LinkedIn</a>
+        <a href="mailto:ionander.bolado@opendeusto.es" style="color:var(--accent-teal-deep);font-weight:600;text-decoration:none;">Email</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    /* ========================================================================
+       1. Slide-Out Drawer Navigation
+       ======================================================================== */
+    (function initDrawer() {
+      const openBtn = document.getElementById("openDrawerBtn");
+      const closeBtn = document.getElementById("closeDrawerBtn");
+      const drawer = document.getElementById("navDrawer");
+      const backdrop = document.getElementById("drawerBackdrop");
+
+      function setDrawer(open) {
+        if (!drawer || !backdrop) return;
+        drawer.classList.toggle("open", open);
+        backdrop.classList.toggle("open", open);
+        drawer.setAttribute("aria-hidden", String(!open));
+      }
+
+      if (openBtn) openBtn.addEventListener("click", () => setDrawer(true));
+      if (closeBtn) closeBtn.addEventListener("click", () => setDrawer(false));
+      if (backdrop) backdrop.addEventListener("click", () => setDrawer(false));
+      document.querySelectorAll(".drawer-link").forEach((link) => {
+        link.addEventListener("click", () => setDrawer(false));
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setDrawer(false);
+      });
+    })();
+
+    /* ========================================================================
+       2. Scroll-Triggered Two-Tone Section Sweeps (Assimilated from shared.js)
+       ======================================================================== */
+    (function initScrollSweeps() {
+      const bands = document.querySelectorAll(".two-tone-sweep");
+      if (!bands.length) return;
+
+      const reveal = (el) => el.classList.add("is-revealed");
+
+      if (!("IntersectionObserver" in window)) {
+        bands.forEach(reveal);
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              reveal(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      bands.forEach((band) => observer.observe(band));
+    })();
+
+    /* ========================================================================
+       3. CT Biopsy Trajectory & Rigid Registration Replay Controls
+       ======================================================================== */
+    (function initImagingReplays() {
+      const scan = document.getElementById("scan");
+      const replayScanBtn = document.getElementById("replayScan");
+
+      function playScan() {
+        if (!scan) return;
+        scan.classList.remove("go");
+        void scan.offsetWidth;
+        scan.classList.add("go");
+      }
+
+      if (replayScanBtn) replayScanBtn.addEventListener("click", playScan);
+      window.addEventListener("load", () => setTimeout(playScan, 250));
+
+      const regStage = document.getElementById("regStage");
+      const replayRegBtn = document.getElementById("replayReg");
+
+      if (replayRegBtn && regStage) {
+        replayRegBtn.addEventListener("click", () => {
+          regStage.classList.remove("aligned");
+          void regStage.offsetWidth;
+          setTimeout(() => regStage.classList.add("aligned"), 180);
+        });
+      }
+    })();
+
+    /* ========================================================================
+       4. CardioPatch Live ECG Sinus Wave Simulator (Assimilated from widgets.js)
+       ======================================================================== */
+    (function initPrototypeEcg() {
+      const canvas = document.getElementById("ecgCanvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      const modes = {
+        rest: {
+          bpm: "68 BPM",
+          temp: "36.6 °C",
+          badge: "Normal Sinus Rhythm · Saved silently for daily summary",
+          stShift: 0,
+          speed: 0.012,
+          color: "#0d7a6d"
+        },
+        stairs: {
+          bpm: "112 BPM",
+          temp: "36.9 °C",
+          badge: "Exertion (Climbing Stairs) · Filtered by AI — No false alarm",
+          stShift: 0,
+          speed: 0.019,
+          color: "#c97a16"
+        },
+        warning: {
+          bpm: "102 BPM",
+          temp: "35.8 °C",
+          badge: "Silent Warning Sign Detected · Doctor & Caregiver Alerted",
+          stShift: 17,
+          speed: 0.017,
+          color: "#b8293d"
+        }
+      };
+
+      let activeMode = "rest";
+      let isPlaying = true;
+      let phase = 0;
+
+      const readout = document.getElementById("telemetryReadout");
+      const playBtn = document.getElementById("telemetryPlayBtn");
+
+      function updateStatus() {
+        const m = modes[activeMode];
+        if (readout) {
+          readout.innerHTML = `HR: <strong>${m.bpm}</strong> · Temp: <strong>${m.temp}</strong><br><span style="color:${m.color};font-weight:700;">${m.badge}</span>`;
+        }
+      }
+
+      document.querySelectorAll("[data-ecg-mode]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("[data-ecg-mode]").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          activeMode = btn.dataset.ecgMode;
+          updateStatus();
+        });
+      });
+
+      if (playBtn) {
+        playBtn.addEventListener("click", () => {
+          isPlaying = !isPlaying;
+          playBtn.innerHTML = isPlaying ? "&#10074;&#10074;" : "&#9654;";
+        });
+      }
+
+      function sampleWave(t, stShift) {
+        const x = t % 1;
+        if (x > 0.12 && x < 0.20) return -6 * Math.sin(((x - 0.12) / 0.08) * Math.PI);
+        if (x >= 0.26 && x < 0.29) return 10;
+        if (x >= 0.29 && x < 0.33) return -34;
+        if (x >= 0.33 && x < 0.37) return 14 + stShift;
+        if (x >= 0.37 && x < 0.46) return stShift * 0.85;
+        if (x >= 0.48 && x < 0.62) return -9 * Math.sin(((x - 0.48) / 0.14) * Math.PI);
+        return 0;
+      }
+
+      function draw() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const w = rect.width;
+        const h = rect.height;
+        ctx.clearRect(0, 0, w, h);
+
+        const m = modes[activeMode];
+        ctx.strokeStyle = m.color;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+
+        for (let px = 0; px < w; px++) {
+          const t = px / 115 + phase;
+          const y = h * 0.56 + sampleWave(t, m.stShift);
+          if (px === 0) ctx.moveTo(px, y);
+          else ctx.lineTo(px, y);
+        }
+        ctx.stroke();
+
+        if (isPlaying) phase += m.speed;
+        requestAnimationFrame(draw);
+      }
+
+      updateStatus();
+      draw();
+    })();
+
+    /* ========================================================================
+       5. Lab & Founder's Log Category Filter
+       ======================================================================== */
+    (function initLabLogFilter() {
+      const filters = document.querySelectorAll("[data-log-filter]");
+      const entries = document.querySelectorAll(".log-entry");
+
+      filters.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filters.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const target = btn.dataset.logFilter;
+
+          entries.forEach((entry) => {
+            const match = target === "all" || entry.dataset.category === target;
+            entry.classList.toggle("hidden", !match);
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
