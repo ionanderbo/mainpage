@@ -6,7 +6,14 @@
    4. One-Click Email Copy Helper
    ========================================================================== */
 
+let ecgAnimFrameId = null;
+
 function initPrototypeEcg() {
+  if (ecgAnimFrameId) {
+    cancelAnimationFrame(ecgAnimFrameId);
+    ecgAnimFrameId = null;
+  }
+
   const canvas = document.getElementById("ecgCanvas");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
@@ -80,6 +87,7 @@ function initPrototypeEcg() {
   }
 
   function draw() {
+    if (!document.body.contains(canvas)) return;
     const rect = canvas.parentElement.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
     canvas.width = rect.width * dpr;
@@ -104,7 +112,7 @@ function initPrototypeEcg() {
     ctx.stroke();
 
     if (isPlaying) phase += m.speed;
-    requestAnimationFrame(draw);
+    ecgAnimFrameId = requestAnimationFrame(draw);
   }
 
   updateStatus();
@@ -122,8 +130,11 @@ function initImagingReplays() {
     scan.classList.add("go");
   }
 
-  if (replayScanBtn) replayScanBtn.addEventListener("click", playScan);
-  window.addEventListener("load", () => setTimeout(playScan, 250));
+  if (replayScanBtn && !replayScanBtn.dataset.bound) {
+    replayScanBtn.dataset.bound = "true";
+    replayScanBtn.addEventListener("click", playScan);
+  }
+  setTimeout(playScan, 250);
 
   const regStage = document.getElementById("regStage");
   const replayRegBtn = document.getElementById("replayReg");
@@ -142,6 +153,8 @@ function initLabLogFilter() {
   if (!filters.length) return;
 
   filters.forEach((btn) => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = "true";
     btn.addEventListener("click", () => {
       filters.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
@@ -157,10 +170,11 @@ function initLabLogFilter() {
 
 function initCopyEmail() {
   const copyBtn = document.getElementById("copyEmailBtn");
-  if (!copyBtn) return;
+  if (!copyBtn || copyBtn.dataset.bound) return;
+  copyBtn.dataset.bound = "true";
 
   copyBtn.addEventListener("click", async () => {
-    const email = PROFILE_DATA.meta.email;
+    const email = DEFAULT_DATA.meta.email;
     try {
       await navigator.clipboard.writeText(email);
       const trackSpans = copyBtn.querySelectorAll(".roll-track span");
@@ -178,9 +192,9 @@ function initCopyEmail() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+window.rebindInteractiveWidgets = function () {
   initPrototypeEcg();
   initImagingReplays();
   initLabLogFilter();
   initCopyEmail();
-});
+};

@@ -7,14 +7,9 @@
    5. Hover Focus & Enlarge (.focus-zoom-group / .focus-zoom-frame)
    ========================================================================== */
 
-/* 1. Gentle Levitation Float */
 @keyframes levitate {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
 }
 
 .levitate-device {
@@ -22,7 +17,7 @@
   will-change: transform;
 }
 
-/* 2. CT Biopsy Needle Trajectory Animation */
+/* CT Biopsy Needle Trajectory Animation */
 .scan-panel .path {
   stroke: var(--accent-signal);
   stroke-width: 3.2;
@@ -56,20 +51,14 @@
   animation: ring 1.6s ease-out 2.5s 2;
 }
 
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes pop {
-  to { opacity: 1; }
-}
-
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes pop { to { opacity: 1; } }
 @keyframes ring {
   0% { opacity: 0.9; transform: scale(1); }
   100% { opacity: 0; transform: scale(2.6); }
 }
 
-/* 3. Rolling Label Buttons + Directional Background Wipe */
+/* Rolling Label Buttons + Directional Background Wipe */
 .btn-roll {
   position: relative;
   display: inline-flex;
@@ -193,7 +182,7 @@
   transform: translateY(0);
 }
 
-/* 4. Scroll-Triggered Two-Tone Section Sweeps */
+/* Scroll-Triggered Two-Tone Section Sweeps */
 .two-tone-sweep {
   position: relative;
 }
@@ -222,7 +211,7 @@
 .two-tone-sweep.is-revealed::before { transform: translateX(102%); }
 .two-tone-sweep.is-revealed::after { transform: translateX(-102%); }
 
-/* 5. Focus and Enlarge on Hover */
+/* Focus and Enlarge on Hover */
 .focus-zoom-frame {
   position: relative;
   border-radius: var(--radius-card);

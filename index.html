@@ -88,187 +88,18 @@
       </div>
     </section>
 
-    <!-- BAND 3: ENGINEERING & MEDTECH PROJECTS -->
+    <!-- BAND 3: ENGINEERING & MEDTECH PROJECTS (Dynamically Rendered) -->
     <section class="band band--sage two-tone-sweep" id="projects">
       <span class="eyebrow">02 &middot; Selected Engineering &amp; MedTech Work</span>
       <h2 class="display-section" style="margin:12px 0 10px;">Projects with real signals, metrics, and limits.</h2>
       <p style="color:var(--ink-secondary);max-width:680px;margin-bottom:28px;">
-        From wearable cardiac telemetry and Health 4.0 system architecture to 3D CT surgical planning and EEG artifact rejection.
+        From wearable cardiac telemetry and Health 4.0 system architecture to 3D CT surgical planning, EEG artifact rejection, and ongoing clinical builds.
       </p>
 
-      <div class="project-showcase">
-
-        <!-- FEATURED PROJECT 1: CARDIOPATCH -->
-        <article class="proj-featured card-wipe">
-          <div>
-            <div class="tag-row">
-              <span class="tag tag--signal">Featured Concept &amp; Prototype</span>
-              <span class="tag">Edge AI</span>
-              <span class="tag">Biosignals</span>
-              <span class="tag">Health 4.0</span>
-              <span class="tag">IP67 Wearable</span>
-            </div>
-            <h3 style="font-size:1.55rem;margin-bottom:10px;">
-              CardioPatch: 24/7 Wearable Cardiac Patch for Silent Heart Attack Warning
-            </h3>
-            <p style="color:var(--ink-secondary);font-size:0.97rem;margin-bottom:12px;">
-              Co-designed in a 4-person biomedical engineering team (Group 06, University of Deusto) to solve a clear clinical gap: nearly <strong>45% of myocardial infarctions occur without classic chest pain</strong>, while retrospective Holter patches only report data days later.
-            </p>
-            <p style="color:var(--ink-secondary);font-size:0.97rem;margin-bottom:18px;">
-              We architected a reusable IP67 shower-proof electronics hub paired with disposable hypoallergenic silicone patches. Guided by stakeholder interviews with cardiology and cardiac rehab nursing, the system runs lightweight on-device AI to suppress false alarms during stair climbing while escalating real ST-segment shifts and skin-temperature drops with a 30-second ECG strip.
-            </p>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;">
-              <a href="#ecg-demo" class="btn-roll btn-roll--teal btn-wipe">
-                <span class="roll-track"><span>Test Live ECG Demo</span><span>Test Live ECG Demo &rarr;</span></span>
-              </a>
-            </div>
-          </div>
-
-          <!-- LIVE INTERACTIVE ECG SIMULATOR -->
-          <div class="ecg-widget-box" id="ecg-demo">
-            <span class="eyebrow" style="margin-bottom:12px;">Interactive Prototype Signal Simulator</span>
-            <p style="font-size:0.88rem;color:var(--ink-secondary);margin-bottom:14px;">
-              Switch physiological states to see how CardioPatch separates everyday exertion from a silent cardiac warning sign:
-            </p>
-
-            <div class="telemetry-bar">
-              <button class="play-circle" id="telemetryPlayBtn" aria-label="Play or pause ECG waveform">&#10074;&#10074;</button>
-              <div class="waveform-box">
-                <canvas id="ecgCanvas"></canvas>
-              </div>
-            </div>
-
-            <div class="preset-pills">
-              <button type="button" class="preset-btn active" data-ecg-mode="rest">At Rest</button>
-              <button type="button" class="preset-btn" data-ecg-mode="stairs">Climbing Stairs</button>
-              <button type="button" class="preset-btn" data-ecg-mode="warning">Silent Warning</button>
-            </div>
-
-            <p id="telemetryReadout" style="margin-top:12px;font-family:var(--font-mono);font-size:0.78rem;color:var(--ink-secondary);line-height:1.5;"></p>
-          </div>
-        </article>
-
-        <!-- FEATURED PROJECT 2: LUNG NODULE CT BIOPSY & RADIOMICS -->
-        <article class="proj-featured card-wipe">
-          <div>
-            <div class="tag-row">
-              <span class="tag">3D Slicer</span>
-              <span class="tag">Python</span>
-              <span class="tag">Radiomics</span>
-              <span class="tag">Rigid Registration</span>
-              <span class="tag">Chest CT</span>
-            </div>
-            <h3 style="font-size:1.5rem;margin-bottom:10px;">
-              Lung Nodule Characterisation &amp; CT-Guided Biopsy Planning
-            </h3>
-            <p style="color:var(--ink-secondary);font-size:0.97rem;margin-bottom:12px;">
-              Segmented a solid pulmonary nodule on chest CT in 3D Slicer, reconstructed a 3D anatomical model, planned a single-pleura-crossing needle path avoiding ribs and major vessels, recovered a 10 mm simulated displacement via mutual-information rigid registration, and extracted radiomic features.
-            </p>
-            <p style="color:var(--ink-secondary);font-size:0.97rem;">
-              <strong>Critical limits learned:</strong> A raw mean intensity of <strong>&minus;171.8 HU</strong> looked artificially low for soft tissue because <strong>17.5%</strong> of segmented voxels captured aerated lung along the boundary rim. At ~18 mm equivalent diameter, the lesion exceeds the <strong>8 mm Fleischner threshold</strong>, justifying biopsy planning while highlighting the need for respiratory motion compensation.
-            </p>
-          </div>
-
-          <div class="reg-panel">
-            <div class="reg-stage aligned" id="regStage">
-              <div class="nodule-ref" title="Reference CT segmentation"></div>
-              <div class="nodule-moving" title="Registered scan volume"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:#9fb5bf;">
-                Dashed: reference &middot; Teal: 10 mm shift aligned
-              </span>
-              <button type="button" class="mini-btn" id="replayReg">Replay alignment</button>
-            </div>
-            <div class="stat-trio">
-              <div class="stat-chip">
-                <strong>3.01 cm&sup3;</strong>
-                <span>Nodule volume (~18 mm)</span>
-              </div>
-              <div class="stat-chip">
-                <strong>58.78 mm</strong>
-                <span>Planned needle trajectory</span>
-              </div>
-              <div class="stat-chip">
-                <strong>10 mm</strong>
-                <span>Shift recovered via registration</span>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- SECONDARY 2-COLUMN GRID: EEG & ALZHEIMER'S -->
-        <div class="grid-2 focus-zoom-group">
-          <article class="card card-wipe focus-zoom-frame">
-            <div class="tag-row">
-              <span class="tag">Python</span>
-              <span class="tag">Signal Processing</span>
-              <span class="tag">14-Ch EEG</span>
-            </div>
-            <h3 style="font-size:1.32rem;margin-bottom:10px;">
-              EEG Signal Quality &amp; Artifact Rejection
-            </h3>
-            <p style="color:var(--ink-secondary);font-size:0.95rem;">
-              Audited sampling and aliasing, ranked 14 scalp channels by electrode contact quality, applied a 1–40 Hz bandpass filter, and isolated ocular eye-blink artifacts using synchronous accelerometer data. Removing a single noisy electrode (<strong>P7</strong>) rescued recording usability from <strong>26.60% to over 70%</strong>.
-            </p>
-
-            <div class="eeg-box">
-              <svg viewBox="0 0 360 72" style="width:100%;height:auto;display:block;" aria-label="EEG trace showing ocular eye blink spike">
-                <polyline fill="none" stroke="#eab308" stroke-width="2.5" points="8,40 36,36 64,42 92,38 118,41 134,12 146,64 160,36 188,41 216,37 244,42 272,38 300,41 328,37 352,40" />
-                <text x="114" y="68" fill="#fde047" font-size="11" font-family="JetBrains Mono, monospace">eye blink artifact</text>
-              </svg>
-
-              <div class="eeg-bar-row">
-                <div class="eeg-bar-meta">
-                  <span>All 14 channels</span>
-                  <span>26.60% usable</span>
-                </div>
-                <div class="eeg-track"><div class="eeg-fill-low"></div></div>
-              </div>
-
-              <div class="eeg-bar-row">
-                <div class="eeg-bar-meta">
-                  <span>Without noisy P7 channel</span>
-                  <span style="color:#6ee7b7;">&gt;70.0% usable</span>
-                </div>
-                <div class="eeg-track"><div class="eeg-fill-high"></div></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="card card-wipe focus-zoom-frame" style="display:flex;flex-direction:column;justify-content:space-between;">
-            <div>
-              <div class="tag-row">
-                <span class="tag tag--signal">In Progress</span>
-                <span class="tag">R</span>
-                <span class="tag">dplyr</span>
-                <span class="tag">ggplot2</span>
-              </div>
-              <h3 style="font-size:1.32rem;margin-bottom:10px;">
-                Alzheimer’s Disease Clinical Data Explorer
-              </h3>
-              <p style="color:var(--ink-secondary);font-size:0.95rem;margin-bottom:12px;">
-                Cleaning, structuring, and modeling clinical and lifestyle biomarkers across 2,149 patient records in R using <code>dplyr</code> and <code>ggplot2</code> to identify which non-invasive variables best separate diagnosed patients from controls.
-              </p>
-              <p style="color:var(--ink-secondary);font-size:0.95rem;">
-                Built to explore how multivariate clinical screening tools can flag early cognitive decline before late-stage symptoms appear.
-              </p>
-            </div>
-
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
-              <a href="https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-dataset" target="_blank" rel="noreferrer" class="btn-roll btn-roll--primary btn-wipe">
-                <span class="roll-track"><span>Dataset on Kaggle</span><span>Dataset on Kaggle &rarr;</span></span>
-              </a>
-              <a href="https://github.com" target="_blank" rel="noreferrer" class="btn-roll btn-roll--outline btn-wipe">
-                <span class="roll-track"><span>Code on GitHub</span><span>Code on GitHub &rarr;</span></span>
-              </a>
-            </div>
-          </article>
-        </div>
-      </div>
+      <div class="project-showcase" id="projectsShowcase"></div>
     </section>
 
-    <!-- BAND 4: LAB & FOUNDER'S LOG -->
+    <!-- BAND 4: LAB & FOUNDER'S LOG (Dynamically Rendered) -->
     <section class="band band--porcelain two-tone-sweep" id="log">
       <span class="eyebrow eyebrow--signal">03 &middot; Build-in-Public Notebook</span>
       <h2 class="display-section" style="margin:12px 0 10px;">
@@ -302,7 +133,7 @@
       <div class="grid-3 focus-zoom-group" id="focusGrid"></div>
     </section>
 
-    <!-- BAND 7: CONTACT & COLLABORATION (No Sponsors Section) -->
+    <!-- BAND 7: CONTACT & COLLABORATION -->
     <section class="band band--fjord" id="contact">
       <div class="split-2">
         <div>
@@ -350,8 +181,12 @@
     <div id="site-footer"></div>
   </div>
 
+  <!-- Supabase SDK v2 (Gracefully bypassed until config.js keys are added) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
   <script src="./data.js"></script>
   <script src="./shared.js"></script>
   <script src="./widgets.js"></script>
+  <script src="./studio.js"></script>
 </body>
 </html>
