@@ -1,0 +1,255 @@
+/* ==========================================================================
+   Ion Ander Bolado — Signature Animations
+   1. Device / Schematic Levitation Float (.levitate-device)
+   2. CT Biopsy Trajectory Path Draw (.scan-panel.go)
+   3. Rolling Button Labels & Directional Wipes (.btn-roll, .btn-wipe, .card-wipe, .nav-wipe)
+   4. Scroll-Triggered Two-Tone Section Sweeps (.two-tone-sweep)
+   5. Hover Focus & Enlarge (.focus-zoom-group / .focus-zoom-frame)
+   ========================================================================== */
+
+/* 1. Gentle Levitation Float */
+@keyframes levitate {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.levitate-device {
+  animation: levitate 4.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 2. CT Biopsy Needle Trajectory Animation */
+.scan-panel .path {
+  stroke: var(--accent-signal);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+}
+
+.scan-panel.go .path {
+  animation: draw 2.1s cubic-bezier(0.6, 0, 0.2, 1) 0.4s forwards;
+}
+
+.scan-panel .tip {
+  opacity: 0;
+}
+
+.scan-panel.go .tip {
+  animation: pop 0.4s ease 2.4s forwards;
+}
+
+.scan-panel .ring {
+  fill: none;
+  stroke: var(--accent-signal);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.scan-panel.go .ring {
+  animation: ring 1.6s ease-out 2.5s 2;
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pop {
+  to { opacity: 1; }
+}
+
+@keyframes ring {
+  0% { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2.6); }
+}
+
+/* 3. Rolling Label Buttons + Directional Background Wipe */
+.btn-roll {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+}
+
+.btn-roll--primary { background: var(--ink-primary); color: var(--ink-inverse); }
+.btn-roll--teal { background: var(--accent-teal); color: #ffffff; }
+.btn-roll--signal { background: var(--accent-signal); color: #ffffff; }
+.btn-roll--light { background: var(--band-porcelain); color: var(--ink-primary); }
+.btn-roll--outline { background: transparent; color: inherit; border-color: currentColor; }
+
+.btn-wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent-signal);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+  z-index: -1;
+}
+
+.btn-roll--signal.btn-wipe::before { background: var(--accent-teal); }
+.btn-roll--light.btn-wipe::before { background: var(--accent-signal); }
+.btn-roll--outline.btn-wipe::before { background: var(--ink-primary); }
+
+.btn-wipe:hover::before,
+.btn-wipe:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.btn-roll--light.btn-wipe:hover,
+.btn-roll--outline.btn-wipe:hover {
+  color: var(--ink-inverse);
+}
+
+.roll-track {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.25em;
+  line-height: 1.25em;
+}
+
+.roll-track > span {
+  display: block;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.roll-track > span:nth-child(2) {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+
+.btn-roll:hover .roll-track > span,
+.btn-roll:focus-visible .roll-track > span {
+  transform: translateY(-100%);
+}
+
+/* Nav Pill Wipe */
+.nav-wipe {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.nav-wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 122, 109, 0.12);
+  border-radius: var(--radius-pill);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+}
+
+.nav-wipe:hover::before {
+  transform: scaleY(1);
+}
+
+/* Card Background Wipe */
+.card-wipe {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-wipe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(13, 122, 109, 0.05), rgba(217, 93, 57, 0.08));
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+}
+
+.card-wipe:hover {
+  transform: translateY(-4px);
+}
+
+.card-wipe:hover::after {
+  transform: translateY(0);
+}
+
+/* 4. Scroll-Triggered Two-Tone Section Sweeps */
+.two-tone-sweep {
+  position: relative;
+}
+
+.two-tone-sweep::before,
+.two-tone-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.two-tone-sweep::before {
+  background: var(--accent-teal);
+  transform: translateX(0%);
+}
+
+.two-tone-sweep::after {
+  background: var(--band-sage);
+  transform: translateX(0%);
+  transition-delay: 0.12s;
+}
+
+.two-tone-sweep.is-revealed::before { transform: translateX(102%); }
+.two-tone-sweep.is-revealed::after { transform: translateX(-102%); }
+
+/* 5. Focus and Enlarge on Hover */
+.focus-zoom-frame {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease;
+}
+
+.focus-zoom-group:hover .focus-zoom-frame {
+  opacity: 0.76;
+}
+
+.focus-zoom-group .focus-zoom-frame:hover {
+  opacity: 1;
+  transform: scale(1.03);
+  box-shadow: var(--shadow-elevated);
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .levitate-device { animation: none !important; }
+  .scan-panel .path { stroke-dashoffset: 0; animation: none !important; }
+  .scan-panel .tip { opacity: 1; animation: none !important; }
+  .scan-panel .ring { animation: none !important; }
+  .two-tone-sweep::before,
+  .two-tone-sweep::after { display: none !important; }
+}

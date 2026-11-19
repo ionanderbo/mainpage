@@ -1,0 +1,831 @@
+/* ==========================================================================
+   Ion Ander Bolado — Personal Portfolio & Lab Log Design System
+   Surgical Fjord, Porcelain & Terracotta Signal Palette
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-canvas: #ecefeb;
+  --band-porcelain: #f8faf9;
+  --band-sage: #e3ebe8;
+  --band-mist: #edf1f4;
+  --band-fjord: #0e3b40;
+  --band-fjord-deep: #072226;
+  --band-obsidian: #111619;
+
+  --accent-teal: #0d7a6d;
+  --accent-teal-deep: #09544b;
+  --accent-signal: #d95d39;
+  --accent-amber: #c97a16;
+  --accent-crimson: #b8293d;
+
+  --ink-primary: #12181b;
+  --ink-secondary: #465258;
+  --ink-muted: #6e7b82;
+  --ink-inverse: #f8faf9;
+
+  --border-subtle: rgba(18, 24, 27, 0.1);
+  --border-light: rgba(248, 250, 249, 0.18);
+
+  --radius-band: 36px;
+  --radius-card: 24px;
+  --radius-pill: 999px;
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --shadow-soft: 0 18px 48px rgba(18, 24, 27, 0.06);
+  --shadow-elevated: 0 28px 64px rgba(18, 24, 27, 0.16);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-canvas);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  padding: 16px;
+  min-height: 100vh;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--accent-signal);
+  outline-offset: 3px;
+}
+
+.page-shell {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+.display-hero {
+  font-size: clamp(2.45rem, 5vw, 4.45rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.display-section {
+  font-size: clamp(1.85rem, 3.4vw, 2.85rem);
+  font-weight: 700;
+}
+
+.serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(13, 122, 109, 0.11);
+  color: var(--accent-teal-deep);
+}
+
+.eyebrow--light {
+  background: rgba(248, 250, 249, 0.14);
+  color: var(--ink-inverse);
+}
+
+.eyebrow--signal {
+  background: rgba(217, 93, 57, 0.14);
+  color: #a83d1e;
+}
+
+/* Architectural Section Bands */
+.band {
+  position: relative;
+  border-radius: var(--radius-band);
+  padding: clamp(32px, 5vw, 68px);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.band--fjord {
+  background: radial-gradient(circle at 25% 20%, #15555c 0%, var(--band-fjord) 52%, var(--band-fjord-deep) 100%);
+  color: var(--ink-inverse);
+}
+
+.band--porcelain { background: var(--band-porcelain); color: var(--ink-primary); }
+.band--sage { background: var(--band-sage); color: var(--ink-primary); }
+.band--mist { background: var(--band-mist); color: var(--ink-primary); }
+.band--obsidian { background: var(--band-obsidian); color: var(--ink-inverse); }
+
+.radial-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 75% 48%, transparent 18%, rgba(255,255,255,0.05) 18.4%, transparent 18.8%),
+    radial-gradient(circle at 75% 48%, transparent 34%, rgba(255,255,255,0.04) 34.4%, transparent 34.8%),
+    radial-gradient(circle at 75% 48%, transparent 50%, rgba(255,255,255,0.03) 50.4%, transparent 50.8%);
+}
+
+/* Sticky Floating Pill Navbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  border-radius: var(--radius-pill);
+  background: rgba(248, 250, 249, 0.92);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 12px;
+  z-index: 90;
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink-primary);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.brand-pulse {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--accent-teal);
+  box-shadow: 0 0 0 5px rgba(13, 122, 109, 0.2);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--ink-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 9px 15px;
+  border-radius: var(--radius-pill);
+  transition: color 0.25s ease;
+}
+
+.nav-link:hover {
+  color: var(--ink-primary);
+}
+
+.menu-trigger {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--band-porcelain);
+  color: var(--ink-primary);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.menu-trigger:hover {
+  transform: scale(1.05);
+}
+
+/* Slide-Out Obsidian Drawer */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 22, 25, 0.55);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 120;
+}
+
+.drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav-drawer {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  bottom: 14px;
+  width: min(390px, calc(100vw - 28px));
+  background: var(--band-obsidian);
+  color: var(--ink-inverse);
+  border-radius: var(--radius-band);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translateX(-110%);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 130;
+}
+
+.nav-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.drawer-links a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--ink-inverse);
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 13px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--border-light);
+}
+
+/* Layouts & Cards */
+.split-2 {
+  display: grid;
+  grid-template-columns: 1.06fr 0.94fr;
+  gap: clamp(28px, 4.5vw, 60px);
+  align-items: center;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 28px;
+}
+
+.band--obsidian .card,
+.band--fjord .card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-light);
+}
+
+/* Hero CT Biopsy Card */
+.scan-panel {
+  background: #0a171a;
+  border: 1px solid rgba(248, 250, 249, 0.14);
+  border-radius: 26px;
+  padding: 18px 18px 14px;
+  color: #a9c4d0;
+  box-shadow: 0 24px 56px rgba(4, 14, 16, 0.45);
+}
+
+.scan-panel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.readout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding-top: 10px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(248, 250, 249, 0.1);
+}
+
+.readout b {
+  color: #ffffff;
+}
+
+.mini-btn {
+  background: rgba(248, 250, 249, 0.08);
+  border: 1px solid rgba(248, 250, 249, 0.24);
+  color: #ffffff;
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.mini-btn:hover {
+  background: var(--accent-signal);
+  border-color: var(--accent-signal);
+}
+
+/* Fact Stack in About */
+.fact-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fact-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--accent-teal);
+  border-radius: 18px;
+  padding: 18px 22px;
+}
+
+.fact-card--signal {
+  border-left-color: var(--accent-signal);
+}
+
+.fact-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-teal-deep);
+  margin-bottom: 4px;
+}
+
+.fact-card--signal .fact-label {
+  color: #a83d1e;
+}
+
+.fact-value {
+  font-size: 0.96rem;
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+/* Flagship Project Showcase Cards */
+.project-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.proj-featured {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 28px;
+  padding: clamp(24px, 3.5vw, 38px);
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(13, 122, 109, 0.1);
+  color: var(--accent-teal-deep);
+}
+
+.tag--signal {
+  background: rgba(217, 93, 57, 0.13);
+  color: #a83d1e;
+}
+
+/* Interactive CardioPatch ECG Telemetry Widget */
+.ecg-widget-box {
+  background: var(--band-mist);
+  border: 1px solid var(--border-subtle);
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.telemetry-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  color: var(--ink-primary);
+  padding: 12px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+}
+
+.play-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-crimson);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.play-circle:hover {
+  transform: scale(1.06);
+}
+
+.waveform-box {
+  flex: 1;
+  height: 52px;
+  background: #f5f7f8;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.waveform-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.preset-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.preset-btn {
+  border: 1px solid var(--border-subtle);
+  background: #ffffff;
+  color: var(--ink-primary);
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.preset-btn.active {
+  background: var(--ink-primary);
+  color: #ffffff;
+  border-color: var(--ink-primary);
+}
+
+/* Rigid Registration & Stats Module */
+.reg-panel {
+  background: #0a171a;
+  color: #d6e4ea;
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.reg-stage {
+  position: relative;
+  height: 148px;
+  border-radius: 14px;
+  background: #102328;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.nodule-ref {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 2px dashed rgba(248, 250, 249, 0.7);
+  position: absolute;
+}
+
+.nodule-moving {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(13, 122, 109, 0.78);
+  border: 2px solid #4adbc8;
+  transform: translate(34px, -18px);
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reg-stage.aligned .nodule-moving {
+  transform: translate(0px, 0px);
+}
+
+.stat-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.stat-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.stat-chip strong {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.stat-chip span {
+  display: block;
+  font-size: 0.75rem;
+  color: #9fb5bf;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+/* EEG Quality Bars */
+.eeg-box {
+  background: #0a171a;
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 18px;
+  color: #e6f0f3;
+}
+
+.eeg-bar-row {
+  margin-top: 10px;
+}
+
+.eeg-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #c5d7de;
+  margin-bottom: 5px;
+}
+
+.eeg-track {
+  width: 100%;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.eeg-fill-low {
+  width: 26.6%;
+  height: 100%;
+  background: var(--accent-amber);
+  border-radius: var(--radius-pill);
+}
+
+.eeg-fill-high {
+  width: 72%;
+  height: 100%;
+  background: #2bc48a;
+  border-radius: var(--radius-pill);
+}
+
+/* Lab & Founder's Log */
+.log-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 24px;
+}
+
+.log-filter {
+  border: 1px solid var(--border-subtle);
+  background: #ffffff;
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.log-filter.active,
+.log-filter:hover {
+  background: var(--ink-primary);
+  color: var(--ink-inverse);
+  border-color: var(--ink-primary);
+}
+
+.log-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.log-entry {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 22px 26px;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.log-entry.hidden {
+  display: none;
+}
+
+.log-stamp {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.log-date {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.log-cat {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(13, 122, 109, 0.11);
+  color: var(--accent-teal-deep);
+}
+
+.log-cat--signal {
+  background: rgba(217, 93, 57, 0.13);
+  color: #a83d1e;
+}
+
+.log-entry h3 {
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+
+.log-entry p {
+  font-size: 0.95rem;
+  color: var(--ink-secondary);
+  max-width: 72ch;
+}
+
+/* Roadmap & Focus Pillars */
+.pillar-num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-teal);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.band--obsidian .pillar-num {
+  color: #5eead4;
+}
+
+.focus-list {
+  margin-top: 12px;
+  padding-left: 18px;
+  color: rgba(248, 250, 249, 0.78);
+  font-size: 0.94rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Collaboration Panel in Contact */
+.collab-panel {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 26px 28px;
+}
+
+.collab-list {
+  list-style: none;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.collab-list li {
+  padding-left: 14px;
+  border-left: 2px solid var(--accent-signal);
+  font-size: 0.94rem;
+  color: rgba(248, 250, 249, 0.88);
+}
+
+.collab-list strong {
+  color: #ffffff;
+  display: block;
+  font-size: 0.96rem;
+}
+
+/* Footer */
+.site-footer {
+  border-radius: var(--radius-band);
+  background: var(--band-porcelain);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-secondary);
+  padding: 28px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 940px) {
+  .split-2,
+  .grid-2,
+  .grid-3,
+  .proj-featured {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .log-entry {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .stat-trio {
+    grid-template-columns: 1fr;
+  }
+}
