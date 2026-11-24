@@ -1,8 +1,8 @@
 /* ==========================================================================
    Ion Ander Bolado — Interactive Widgets
    1. CardioPatch Prototype ECG Sinus Wave Simulator
-   2. CT Biopsy Trajectory & Rigid Registration Replay Controls
-   3. Lab & Founder's Log Category Filter
+   2. CT Biopsy Rigid Registration Replay
+   3. Updates & Notes Category Filter
    4. One-Click Email Copy Helper
    ========================================================================== */
 
@@ -22,23 +22,23 @@ function initPrototypeEcg() {
     rest: {
       bpm: "68 BPM",
       temp: "36.6 °C",
-      badge: "Normal Sinus Rhythm · Saved silently for daily summary",
+      badge: "Normal sinus rhythm · Logged quietly",
       stShift: 0,
       speed: 0.012,
-      color: "#0d7a6d"
+      color: "#0f766e"
     },
     stairs: {
       bpm: "112 BPM",
       temp: "36.9 °C",
-      badge: "Exertion (Climbing Stairs) · Filtered by AI — No false alarm",
+      badge: "Climbing stairs · Filtered by AI (no false alert)",
       stShift: 0,
       speed: 0.019,
-      color: "#c97a16"
+      color: "#c27817"
     },
     warning: {
       bpm: "102 BPM",
       temp: "35.8 °C",
-      badge: "Silent Warning Sign Detected · Doctor & Caregiver Alerted",
+      badge: "Silent warning sign · Doctor & caregiver notified",
       stShift: 17,
       speed: 0.017,
       color: "#b8293d"
@@ -55,7 +55,7 @@ function initPrototypeEcg() {
   function updateStatus() {
     const m = modes[activeMode];
     if (readout) {
-      readout.innerHTML = `HR: <strong>${m.bpm}</strong> · Temp: <strong>${m.temp}</strong><br><span style="color:${m.color};font-weight:700;">${m.badge}</span>`;
+      readout.innerHTML = `HR: <strong>${m.bpm}</strong> · Temp: <strong>${m.temp}</strong><br><span style="color:${m.color};font-weight:600;">${m.badge}</span>`;
     }
   }
 
@@ -100,7 +100,7 @@ function initPrototypeEcg() {
 
     const m = modes[activeMode];
     ctx.strokeStyle = m.color;
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2.4;
     ctx.beginPath();
 
     for (let px = 0; px < w; px++) {
@@ -120,26 +120,11 @@ function initPrototypeEcg() {
 }
 
 function initImagingReplays() {
-  const scan = document.getElementById("scan");
-  const replayScanBtn = document.getElementById("replayScan");
-
-  function playScan() {
-    if (!scan) return;
-    scan.classList.remove("go");
-    void scan.offsetWidth;
-    scan.classList.add("go");
-  }
-
-  if (replayScanBtn && !replayScanBtn.dataset.bound) {
-    replayScanBtn.dataset.bound = "true";
-    replayScanBtn.addEventListener("click", playScan);
-  }
-  setTimeout(playScan, 250);
-
   const regStage = document.getElementById("regStage");
   const replayRegBtn = document.getElementById("replayReg");
 
-  if (replayRegBtn && regStage) {
+  if (replayRegBtn && regStage && !replayRegBtn.dataset.bound) {
+    replayRegBtn.dataset.bound = "true";
     replayRegBtn.addEventListener("click", () => {
       regStage.classList.remove("aligned");
       void regStage.offsetWidth;
@@ -148,8 +133,8 @@ function initImagingReplays() {
   }
 }
 
-function initLabLogFilter() {
-  const filters = document.querySelectorAll("[data-log-filter]");
+function initUpdatesFilter() {
+  const filters = document.querySelectorAll("[data-update-filter]");
   if (!filters.length) return;
 
   filters.forEach((btn) => {
@@ -158,9 +143,9 @@ function initLabLogFilter() {
     btn.addEventListener("click", () => {
       filters.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      const target = btn.dataset.logFilter;
+      const target = btn.dataset.updateFilter;
 
-      document.querySelectorAll(".log-entry").forEach((entry) => {
+      document.querySelectorAll(".update-card").forEach((entry) => {
         const match = target === "all" || entry.dataset.category === target;
         entry.classList.toggle("hidden", !match);
       });
@@ -177,15 +162,10 @@ function initCopyEmail() {
     const email = DEFAULT_DATA.meta.email;
     try {
       await navigator.clipboard.writeText(email);
-      const trackSpans = copyBtn.querySelectorAll(".roll-track span");
-      if (trackSpans.length === 2) {
-        trackSpans[0].textContent = "Copied to clipboard!";
-        trackSpans[1].textContent = "Copied to clipboard!";
-        setTimeout(() => {
-          trackSpans[0].textContent = "Copy email address";
-          trackSpans[1].textContent = "Copy email address";
-        }, 2200);
-      }
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => {
+        copyBtn.textContent = "Copy email";
+      }, 2200);
     } catch (err) {
       window.location.href = `mailto:${email}`;
     }
@@ -195,6 +175,6 @@ function initCopyEmail() {
 window.rebindInteractiveWidgets = function () {
   initPrototypeEcg();
   initImagingReplays();
-  initLabLogFilter();
+  initUpdatesFilter();
   initCopyEmail();
 };

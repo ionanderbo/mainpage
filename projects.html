@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects · Ion Ander Bolado</title>
+  <meta name="description" content="Complete archive of medical devices, imaging pipelines, biosignal processing, and clinical data projects by Ion Ander Bolado." />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./animations.css" />
+</head>
+<body data-page="projects">
+  <div id="site-header"></div>
+
+  <main class="container">
+    <section class="section-block fade-in-up" style="border-bottom:none;">
+      <div style="margin-bottom:20px;">
+        <a href="index.html" style="font-family:var(--font-mono);font-size:0.8rem;font-weight:600;color:var(--ink-secondary);text-decoration:none;">
+          &larr; Back to home
+        </a>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <span class="kicker"><span class="kicker-dot"></span> Complete Archive</span>
+          <h1 class="hero-title" style="font-size:clamp(2.1rem, 4vw, 3.2rem);">
+            Projects &amp; <span class="serif-accent">Prototypes</span>
+          </h1>
+          <p class="section-sub">
+            Everything I’ve built, tested, and analyzed—from wearable cardiac monitoring and 3D CT surgical planning to biosignal filtering and ongoing work.
+          </p>
+        </div>
+        <span class="status-pill" id="projectsTotalCount" style="margin:0;">Projects</span>
+      </div>
+
+      <div id="allProjectsPageGrid"></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
+  <script src="./data.js"></script>
+  <script src="./shared.js"></script>
+  <script src="./widgets.js"></script>
+  <script src="./studio.js"></script>
+</body>
+</html>

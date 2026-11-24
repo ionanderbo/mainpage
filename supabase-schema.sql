@@ -1,37 +1,37 @@
 -- ==========================================================================
 -- Ion Ander Bolado Portfolio — Supabase Database & Storage Setup
--- Paste this entire script into Supabase -> SQL Editor -> New Query -> Run
+-- Paste into Supabase -> SQL Editor -> New Query -> Run
 -- ==========================================================================
 
--- 1. Lab & Founder's Log Table
+-- 1. Updates & Notes Table
 create table if not exists public.lab_log (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   sort_order int not null default 0,
   date_label text not null,
   category text not null default 'engineering',
-  category_label text not null default 'Hardware & Signals',
+  category_label text not null default 'Engineering & Signals',
   title text not null,
   body text not null,
   tags text[] not null default '{}',
-  accent_color text not null default '#0d7a6d',
+  accent_color text not null default '#0f766e',
   link_url text default '',
   link_label text default '',
   media_url text default '',
   media_name text default ''
 );
 
--- 2. Projects Table (Current, Featured & Past Projects)
+-- 2. Projects Table (Featured, Current & Past Projects)
 create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
-  sort_order int not null default 0,
+  sort_order int not null default 10,
   status_label text not null default 'Completed',
   title text not null,
   summary text not null,
   details text default '',
   tags text[] not null default '{}',
-  accent_color text not null default '#0d7a6d',
+  accent_color text not null default '#0f766e',
   primary_link_url text default '',
   primary_link_label text default '',
   secondary_link_url text default '',
@@ -45,7 +45,7 @@ create table if not exists public.projects (
 alter table public.lab_log enable row level security;
 alter table public.projects enable row level security;
 
--- 4. Public Read-Only Policies (Anyone visiting ionanderbo.vercel.app can read)
+-- 4. Public Read-Only Policies
 create policy "Public can read lab_log"
   on public.lab_log for select
   using (true);
@@ -54,7 +54,7 @@ create policy "Public can read projects"
   on public.projects for select
   using (true);
 
--- 5. Authenticated Write Policies (Only your logged-in admin account can write)
+-- 5. Authenticated Write Policies (Admin Only)
 create policy "Authenticated user can insert lab_log"
   on public.lab_log for insert
   to authenticated
@@ -87,7 +87,7 @@ create policy "Authenticated user can delete projects"
   to authenticated
   using (true);
 
--- 6. Storage Bucket for Images, Schematics & PDFs
+-- 6. Storage Bucket for Images, Diagrams & PDFs
 insert into storage.buckets (id, name, public)
 values ('portfolio-media', 'portfolio-media', true)
 on conflict (id) do nothing;

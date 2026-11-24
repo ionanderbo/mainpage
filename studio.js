@@ -1,24 +1,79 @@
 /* ==========================================================================
-   Ion Ander Bolado — Private Creator & Project Studio
+   Ion Ander Bolado — Private Content & Project Panel
    Summoned ONLY via keyboard shortcut: Ctrl + Alt + Shift + I
    ========================================================================== */
 
 (function initPrivateStudio() {
   const SWATCH_COLORS = [
-    { label: "Surgical Teal", hex: "#0d7a6d" },
-    { label: "Terracotta Signal", hex: "#d95d39" },
-    { label: "Warm Amber", hex: "#c97a16" },
-    { label: "Clinical Crimson", hex: "#b8293d" },
-    { label: "Cobalt Blue", hex: "#2563eb" },
-    { label: "Deep Plum", hex: "#7c3aed" }
+    { label: "Botanical Teal", hex: "#0f766e" },
+    { label: "Warm Terracotta", hex: "#d45b38" },
+    { label: "Amber", hex: "#c27817" },
+    { label: "Crimson", hex: "#b8293d" },
+    { label: "Cobalt", hex: "#2563eb" },
+    { label: "Slate", hex: "#475569" }
   ];
+
+  const MONTHS_SHORT = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
   let isAuthenticated = false;
   let activeTab = "log"; // "log" | "projects"
   let editingLogId = null;
   let editingProjectId = null;
+  let isManualTimestamp = false;
+  let liveClockTimer = null;
 
-  // Global keyboard listener: Ctrl + Alt + Shift + I ONLY
+  function toLocalDateTimeInput(dateObj) {
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${dateObj.getFullYear()}-${pad(dateObj.getMonth() + 1)}-${pad(dateObj.getDate())}T${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+  }
+
+  function formatDisplayTimestamp(dateObj) {
+    const pad = (n) => String(n).padStart(2, "0");
+    const day = dateObj.getDate();
+    const month = MONTHS_SHORT[dateObj.getMonth()];
+    const year = dateObj.getFullYear();
+    const hours = pad(dateObj.getHours());
+    const mins = pad(dateObj.getMinutes());
+    return `${day} ${month} ${year} · ${hours}:${mins}`;
+  }
+
+  function parseExistingDateLabelToInput(dateLabel, fallbackIso) {
+    if (dateLabel) {
+      const fullMatch = dateLabel.match(/^(\d{1,2})\s+([A-Z]{3})\s+(\d{4})\s*·\s*(\d{2}):(\d{2})$/i);
+      if (fullMatch) {
+        const day = fullMatch[1].padStart(2, "0");
+        const monthIdx = MONTHS_SHORT.indexOf(fullMatch[2].toUpperCase());
+        const year = fullMatch[3];
+        const hh = fullMatch[4];
+        const mm = fullMatch[5];
+        if (monthIdx !== -1) {
+          return `${year}-${String(monthIdx + 1).padStart(2, "0")}-${day}T${hh}:${mm}`;
+        }
+      }
+      const monthYearMatch = dateLabel.match(/^([A-Z]{3})\s+(\d{4})$/i);
+      if (monthYearMatch) {
+        const monthIdx = MONTHS_SHORT.indexOf(monthYearMatch[1].toUpperCase());
+        const year = monthYearMatch[2];
+        if (monthIdx !== -1) {
+          return `${year}-${String(monthIdx + 1).padStart(2, "0")}-01T12:00`;
+        }
+      }
+    }
+    if (fallbackIso) {
+      const d = new Date(fallbackIso);
+      if (!Number.isNaN(d.getTime())) return toLocalDateTimeInput(d);
+    }
+    return toLocalDateTimeInput(new Date());
+  }
+
+  function stopLiveClock() {
+    if (liveClockTimer) {
+      clearInterval(liveClockTimer);
+      liveClockTimer = null;
+    }
+  }
+
+  // Global keyboard shortcut: Ctrl + Alt + Shift + I ONLY
   document.addEventListener("keydown", async (e) => {
     const isShortcut =
       (e.ctrlKey || e.metaKey) &&
@@ -74,28 +129,26 @@
   }
 
   function closeStudioOverlay() {
+    stopLiveClock();
     const backdrop = document.getElementById("studioBackdrop");
     if (backdrop) backdrop.classList.remove("open");
   }
 
-  /* ------------------------------------------------------------------------
-     1. Authentication Modal
-     ------------------------------------------------------------------------ */
   function renderLoginModal(errorMsg = "") {
     const backdrop = document.getElementById("studioBackdrop");
     const sbReady = window.PORTFOLIO_STATE.isSupabaseReady;
 
     backdrop.innerHTML = `
       <div class="auth-modal">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-          <span class="eyebrow eyebrow--signal">Private Access</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span class="kicker" style="margin:0;">Private Access</span>
           <button type="button" class="action-pill" id="closeAuthBtn">ESC</button>
         </div>
-        <h2 style="font-size:1.65rem;margin-bottom:8px;">Creator &amp; Lab Studio</h2>
-        <p style="font-size:0.92rem;color:var(--ink-secondary);margin-bottom:16px;">
+        <h2 style="font-size:1.5rem;margin-bottom:8px;">Content &amp; Projects Panel</h2>
+        <p style="font-size:0.9rem;color:var(--ink-secondary);margin-bottom:16px;">
           ${sbReady
-            ? "Sign in with your Supabase admin credentials to publish posts, attach files, and edit projects."
-            : "Supabase keys are not added in <code>config.js</code> yet. Enter any preview password below to test the Studio locally in your browser."}
+            ? "Sign in with your Supabase account to publish updates, attach files, and edit projects."
+            : "Supabase publishable key is not added in <code>config.js</code> yet. Enter any password below to test locally in your browser."}
         </p>
 
         ${errorMsg ? `<div class="status-banner status-banner--err" style="margin-bottom:14px;">${escapeHtml(errorMsg)}</div>` : ""}
@@ -103,7 +156,7 @@
         <form id="studioLoginForm" style="display:flex;flex-direction:column;gap:12px;">
           ${sbReady ? `
             <div class="field-group">
-              <label class="field-label" for="authEmail">Admin Email</label>
+              <label class="field-label" for="authEmail">Email</label>
               <input id="authEmail" type="email" class="studio-input" value="${escapeHtml(DEFAULT_DATA.meta.email)}" required />
             </div>
           ` : ""}
@@ -111,11 +164,8 @@
             <label class="field-label" for="authPassword">Password</label>
             <input id="authPassword" type="password" class="studio-input" placeholder="••••••••••••" required autofocus />
           </div>
-          <button type="submit" class="btn-roll btn-roll--teal btn-wipe" style="width:100%;margin-top:6px;">
-            <span class="roll-track">
-              <span>${sbReady ? "Unlock Studio" : "Enter Local Preview Studio"}</span>
-              <span>${sbReady ? "Unlock Studio" : "Enter Local Preview Studio"} &rarr;</span>
-            </span>
+          <button type="submit" class="btn btn--teal" style="width:100%;margin-top:4px;">
+            ${sbReady ? "Unlock Panel" : "Enter Local Preview"}
           </button>
         </form>
       </div>
@@ -149,9 +199,6 @@
     });
   }
 
-  /* ------------------------------------------------------------------------
-     2. Main Studio Shell (X-Style Composer + Past Entry Editor)
-     ------------------------------------------------------------------------ */
   function renderStudioDashboard(feedback = "") {
     const backdrop = document.getElementById("studioBackdrop");
     const sbReady = window.PORTFOLIO_STATE.isSupabaseReady;
@@ -160,27 +207,27 @@
       <div class="studio-shell">
         <div class="studio-header">
           <div>
-            <strong style="font-size:1.05rem;">Ion Ander Bolado &middot; Creator &amp; Lab Studio</strong>
-            <div style="font-family:var(--font-mono);font-size:0.74rem;opacity:0.75;">
-              ${sbReady ? "Connected to Supabase Cloud" : "Local Preview Mode (connect config.js for global sync)"}
+            <strong style="font-size:1rem;">Ion Ander Bolado &middot; Content &amp; Projects Panel</strong>
+            <div style="font-family:var(--font-mono);font-size:0.72rem;opacity:0.75;">
+              ${sbReady ? "Connected to Supabase Cloud" : "Local Preview Mode (add key in config.js for cloud sync)"}
             </div>
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <button type="button" class="mini-btn" id="studioLogoutBtn">Sign out</button>
-            <button type="button" class="mini-btn" id="studioCloseBtn">Close</button>
+            <button type="button" class="mini-dark-btn" id="studioLogoutBtn">Sign out</button>
+            <button type="button" class="mini-dark-btn" id="studioCloseBtn">Close</button>
           </div>
         </div>
 
         <div class="studio-tabs">
           <button type="button" class="studio-tab ${activeTab === "log" ? "active" : ""}" data-tab="log">
-            Lab &amp; Founder’s Log (${window.PORTFOLIO_STATE.labLog.length})
+            Updates &amp; Notes (${window.PORTFOLIO_STATE.labLog.length})
           </button>
           <button type="button" class="studio-tab ${activeTab === "projects" ? "active" : ""}" data-tab="projects">
-            Projects &amp; Archive (${window.PORTFOLIO_STATE.projects.length})
+            Projects (${window.PORTFOLIO_STATE.projects.length})
           </button>
         </div>
 
-        ${feedback ? `<div style="padding:12px 26px 0;"><div class="status-banner">${escapeHtml(feedback)}</div></div>` : ""}
+        ${feedback ? `<div style="padding:12px 24px 0;"><div class="status-banner">${escapeHtml(feedback)}</div></div>` : ""}
 
         <div class="studio-body" id="studioBody"></div>
       </div>
@@ -209,13 +256,11 @@
     if (activeTab === "log") {
       renderLogStudioPane();
     } else {
+      stopLiveClock();
       renderProjectsStudioPane();
     }
   }
 
-  /* ------------------------------------------------------------------------
-     3. File Upload Helper (Supabase Storage or Local Preview DataURL)
-     ------------------------------------------------------------------------ */
   async function handleFileUpload(fileInput) {
     const file = fileInput && fileInput.files && fileInput.files[0];
     if (!file) return null;
@@ -229,7 +274,6 @@
       return { url: data.publicUrl, name: file.name };
     }
 
-    // Local preview mode: convert to Data URL
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve({ url: reader.result, name: file.name });
@@ -239,7 +283,7 @@
   }
 
   function renderColorPickerHtml(selectedColor, inputId) {
-    const current = selectedColor || "#0d7a6d";
+    const current = selectedColor || "#0f766e";
     const swatches = SWATCH_COLORS.map((s) => `
       <button type="button" class="swatch-btn ${current.toLowerCase() === s.hex ? "active" : ""}"
         style="background:${s.hex};" title="${s.label}" data-swatch-target="${inputId}" data-color="${s.hex}">
@@ -249,7 +293,7 @@
     return `
       <div class="swatch-row">
         ${swatches}
-        <input type="color" id="${inputId}" value="${escapeHtml(current)}" style="width:34px;height:28px;border:none;background:none;cursor:pointer;" title="Custom hex color" />
+        <input type="color" id="${inputId}" value="${escapeHtml(current)}" style="width:32px;height:26px;border:none;background:none;cursor:pointer;" title="Custom color" />
       </div>
     `;
   }
@@ -267,77 +311,84 @@
   }
 
   /* ------------------------------------------------------------------------
-     4. Lab & Founder's Log Tab (X-Style Quick Post + Full History Editor)
+     Tab 1: Updates & Notes (Live Publish-Time + Manual Calendar Override)
      ------------------------------------------------------------------------ */
   function renderLogStudioPane() {
+    stopLiveClock();
     const body = document.getElementById("studioBody");
     const existing = editingLogId
       ? window.PORTFOLIO_STATE.labLog.find((item) => item.id === editingLogId)
       : null;
 
-    const defaultDate = new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase();
+    isManualTimestamp = Boolean(existing);
+    const initialDateTimeVal = existing
+      ? parseExistingDateLabelToInput(existing.date_label, existing.created_at)
+      : toLocalDateTimeInput(new Date());
 
     body.innerHTML = `
       <form class="composer-card" id="logComposerForm">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <h3 style="font-size:1.2rem;">${existing ? "Edit Lab Log Entry" : "What are you building or testing?"}</h3>
-          ${existing ? `<button type="button" class="action-pill" id="cancelLogEditBtn">Cancel edit</button>` : ""}
+          <h3 style="font-size:1.12rem;">${existing ? "Edit Update" : "Post a New Update"}</h3>
+          ${existing ? `<button type="button" class="action-pill" id="cancelLogEditBtn">Cancel</button>` : ""}
         </div>
 
         <div class="field-group">
-          <label class="field-label" for="logTitle">Headline</label>
-          <input id="logTitle" class="studio-input" placeholder="e.g. Bench-testing PPG motion artifact filter on STM32" value="${escapeHtml(existing ? existing.title : "")}" required />
+          <label class="field-label" for="logTitle">Title</label>
+          <input id="logTitle" class="studio-input" placeholder="What are you working on?" value="${escapeHtml(existing ? existing.title : "")}" required />
         </div>
 
         <div class="field-group">
-          <label class="field-label" for="logBody">Post Content (Notes, metrics, lessons learned)</label>
-          <textarea id="logBody" class="studio-textarea" placeholder="Write your update like a lab notebook or X post..." required>${escapeHtml(existing ? existing.body : "")}</textarea>
+          <label class="field-label" for="logBody">Note / Details</label>
+          <textarea id="logBody" class="studio-textarea" placeholder="Write your update..." required>${escapeHtml(existing ? existing.body : "")}</textarea>
         </div>
 
         <div class="field-row-2">
           <div class="field-group">
-            <label class="field-label" for="logDate">Date Stamp</label>
-            <input id="logDate" class="studio-input" value="${escapeHtml(existing ? existing.date_label : defaultDate)}" required />
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <label class="field-label" for="logDateTime">Date &amp; Time <span id="logClockBadge" style="color:var(--accent-teal);font-weight:700;">${existing ? "(Saved)" : "(Live)"}</span></label>
+              <button type="button" class="action-pill" id="resetLogClockBtn" style="padding:2px 8px;font-size:0.65rem;${existing ? "" : "display:none;"}">Use live time</button>
+            </div>
+            <input id="logDateTime" type="datetime-local" class="studio-input" value="${escapeHtml(initialDateTimeVal)}" required />
           </div>
           <div class="field-group">
-            <label class="field-label" for="logCategory">Filter Track</label>
+            <label class="field-label" for="logCategory">Topic</label>
             <select id="logCategory" class="studio-select">
-              <option value="engineering" ${existing && existing.category === "engineering" ? "selected" : ""}>Hardware &amp; Signals</option>
-              <option value="translation" ${existing && existing.category === "translation" ? "selected" : ""}>Translation &amp; IP</option>
-              <option value="mobility" ${existing && existing.category === "mobility" ? "selected" : ""}>Germany / Mobility</option>
+              <option value="engineering" ${existing && existing.category === "engineering" ? "selected" : ""}>Engineering &amp; Signals</option>
+              <option value="translation" ${existing && existing.category === "translation" ? "selected" : ""}>MedTech &amp; IP</option>
+              <option value="mobility" ${existing && existing.category === "mobility" ? "selected" : ""}>Germany &amp; TFG</option>
             </select>
           </div>
         </div>
 
         <div class="field-row-2">
           <div class="field-group">
-            <label class="field-label" for="logCategoryLabel">Badge Text</label>
-            <input id="logCategoryLabel" class="studio-input" value="${escapeHtml(existing ? existing.category_label : "Hardware & Signals")}" />
+            <label class="field-label" for="logCategoryLabel">Badge Label</label>
+            <input id="logCategoryLabel" class="studio-input" value="${escapeHtml(existing ? existing.category_label : "Engineering & Signals")}" />
           </div>
           <div class="field-group">
             <label class="field-label" for="logTags">Tags (comma-separated)</label>
-            <input id="logTags" class="studio-input" placeholder="Python, PCB, Espacenet" value="${escapeHtml(existing && existing.tags ? existing.tags.join(", ") : "")}" />
+            <input id="logTags" class="studio-input" placeholder="Python, ECG, Deusto" value="${escapeHtml(existing && existing.tags ? existing.tags.join(", ") : "")}" />
           </div>
         </div>
 
         <div class="field-group">
-          <label class="field-label">Card Accent Color</label>
-          ${renderColorPickerHtml(existing ? existing.accent_color : "#0d7a6d", "logColor")}
+          <label class="field-label">Accent Color</label>
+          ${renderColorPickerHtml(existing ? existing.accent_color : "#0f766e", "logColor")}
         </div>
 
         <div class="field-row-2">
           <div class="field-group">
             <label class="field-label" for="logLinkUrl">Link URL (optional)</label>
-            <input id="logLinkUrl" type="url" class="studio-input" placeholder="https://github.com/..." value="${escapeHtml(existing ? existing.link_url : "")}" />
+            <input id="logLinkUrl" type="url" class="studio-input" placeholder="https://..." value="${escapeHtml(existing ? existing.link_url : "")}" />
           </div>
           <div class="field-group">
-            <label class="field-label" for="logLinkLabel">Link Button Text</label>
-            <input id="logLinkLabel" class="studio-input" placeholder="View repo / paper" value="${escapeHtml(existing ? existing.link_label : "")}" />
+            <label class="field-label" for="logLinkLabel">Link Text</label>
+            <input id="logLinkLabel" class="studio-input" placeholder="View repo / link" value="${escapeHtml(existing ? existing.link_label : "")}" />
           </div>
         </div>
 
         <div class="field-group">
-          <label class="field-label" for="logFile">Attach Image, Plot, or PDF (optional)</label>
+          <label class="field-label" for="logFile">Attach Image or PDF (optional)</label>
           <input id="logFile" type="file" class="studio-input" accept="image/*,.pdf" />
           ${existing && existing.media_url ? `
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:0.8rem;">
@@ -347,25 +398,22 @@
           ` : ""}
         </div>
 
-        <button type="submit" class="btn-roll btn-roll--teal btn-wipe" style="width:100%;">
-          <span class="roll-track">
-            <span>${existing ? "Save Changes" : "Publish to Lab Log"}</span>
-            <span>${existing ? "Save Changes" : "Publish to Lab Log"} &rarr;</span>
-          </span>
+        <button type="submit" class="btn btn--teal" style="width:100%;">
+          ${existing ? "Save Changes" : "Publish Update"}
         </button>
       </form>
 
       <div>
-        <h3 style="font-size:1.15rem;margin-bottom:12px;">Past Lab Log Posts (Click Edit to modify)</h3>
+        <h3 style="font-size:1.08rem;margin-bottom:12px;">Past Updates</h3>
         <div class="manage-list">
           ${window.PORTFOLIO_STATE.labLog.map((item) => `
-            <div class="manage-item" style="--item-accent:${escapeHtml(item.accent_color || "#0d7a6d")};">
+            <div class="manage-item" style="--item-accent:${escapeHtml(item.accent_color || "#0f766e")};">
               <div>
-                <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-muted);">
+                <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--ink-muted);">
                   ${escapeHtml(item.date_label)} &middot; ${escapeHtml(item.category_label)}
                 </div>
-                <strong style="font-size:0.96rem;display:block;margin:2px 0;">${escapeHtml(item.title)}</strong>
-                <p style="font-size:0.84rem;color:var(--ink-secondary);">${escapeHtml(item.body.slice(0, 115))}${item.body.length > 115 ? "..." : ""}</p>
+                <strong style="font-size:0.94rem;display:block;margin:2px 0;">${escapeHtml(item.title)}</strong>
+                <p style="font-size:0.82rem;color:var(--ink-secondary);">${escapeHtml(item.body.slice(0, 105))}${item.body.length > 105 ? "..." : ""}</p>
               </div>
               <div class="manage-actions">
                 <button type="button" class="action-pill" data-edit-log="${escapeHtml(item.id)}">Edit</button>
@@ -378,6 +426,45 @@
     `;
 
     bindColorSwatches();
+
+    const dateInput = document.getElementById("logDateTime");
+    const clockBadge = document.getElementById("logClockBadge");
+    const resetClockBtn = document.getElementById("resetLogClockBtn");
+
+    function startLiveClock() {
+      stopLiveClock();
+      liveClockTimer = setInterval(() => {
+        if (!isManualTimestamp && document.body.contains(dateInput)) {
+          dateInput.value = toLocalDateTimeInput(new Date());
+        }
+      }, 4000);
+    }
+
+    if (!isManualTimestamp) {
+      startLiveClock();
+    }
+
+    dateInput.addEventListener("input", () => {
+      isManualTimestamp = true;
+      if (clockBadge) {
+        clockBadge.textContent = "(Manual)";
+        clockBadge.style.color = "var(--accent-signal)";
+      }
+      if (resetClockBtn) resetClockBtn.style.display = "inline-block";
+    });
+
+    if (resetClockBtn) {
+      resetClockBtn.addEventListener("click", () => {
+        isManualTimestamp = false;
+        dateInput.value = toLocalDateTimeInput(new Date());
+        if (clockBadge) {
+          clockBadge.textContent = "(Live)";
+          clockBadge.style.color = "var(--accent-teal)";
+        }
+        resetClockBtn.style.display = "none";
+        startLiveClock();
+      });
+    }
 
     if (existing) {
       document.getElementById("cancelLogEditBtn").addEventListener("click", () => {
@@ -396,7 +483,7 @@
     document.querySelectorAll("[data-del-log]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const targetId = btn.dataset.delLog;
-        if (!confirm("Delete this Lab Log entry?")) return;
+        if (!confirm("Delete this update?")) return;
 
         if (window.PORTFOLIO_STATE.isSupabaseReady && !targetId.startsWith("seed-")) {
           await window.PORTFOLIO_STATE.supabaseClient.from("lab_log").delete().eq("id", targetId);
@@ -404,79 +491,90 @@
         window.PORTFOLIO_STATE.labLog = window.PORTFOLIO_STATE.labLog.filter((i) => i.id !== targetId);
         saveLocalFallbackState();
         window.refreshPortfolioUI();
-        renderStudioDashboard("Lab Log entry deleted.");
+        renderStudioDashboard("Update deleted.");
       });
     });
 
     document.getElementById("logComposerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const uploaded = await handleFileUpload(document.getElementById("logFile"));
-      const removeMedia = document.getElementById("removeLogMedia")?.checked;
+      try {
+        const uploaded = await handleFileUpload(document.getElementById("logFile"));
+        const removeMedia = document.getElementById("removeLogMedia")?.checked;
 
-      let mediaUrl = existing ? existing.media_url : "";
-      let mediaName = existing ? existing.media_name : "";
-      if (removeMedia) {
-        mediaUrl = "";
-        mediaName = "";
-      } else if (uploaded) {
-        mediaUrl = uploaded.url;
-        mediaName = uploaded.name;
-      }
+        let mediaUrl = existing ? existing.media_url : "";
+        let mediaName = existing ? existing.media_name : "";
+        if (removeMedia) {
+          mediaUrl = "";
+          mediaName = "";
+        } else if (uploaded) {
+          mediaUrl = uploaded.url;
+          mediaName = uploaded.name;
+        }
 
-      const tags = document.getElementById("logTags").value
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean);
+        const chosenDate = isManualTimestamp && dateInput.value
+          ? new Date(dateInput.value)
+          : new Date();
+        stopLiveClock();
 
-      const payload = {
-        date_label: document.getElementById("logDate").value.trim(),
-        category: document.getElementById("logCategory").value,
-        category_label: document.getElementById("logCategoryLabel").value.trim() || "Lab Note",
-        title: document.getElementById("logTitle").value.trim(),
-        body: document.getElementById("logBody").value.trim(),
-        tags,
-        accent_color: document.getElementById("logColor").value,
-        link_url: document.getElementById("logLinkUrl").value.trim(),
-        link_label: document.getElementById("logLinkLabel").value.trim(),
-        media_url: mediaUrl,
-        media_name: mediaName
-      };
+        const tags = document.getElementById("logTags").value
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean);
 
-      if (window.PORTFOLIO_STATE.isSupabaseReady) {
-        const sb = window.PORTFOLIO_STATE.supabaseClient;
-        if (existing && !existing.id.startsWith("seed-")) {
-          const { data, error } = await sb.from("lab_log").update(payload).eq("id", existing.id).select().single();
-          if (!error && data) {
-            window.PORTFOLIO_STATE.labLog = window.PORTFOLIO_STATE.labLog.map((i) => (i.id === existing.id ? data : i));
+        const payload = {
+          date_label: formatDisplayTimestamp(chosenDate),
+          category: document.getElementById("logCategory").value,
+          category_label: document.getElementById("logCategoryLabel").value.trim() || "Update",
+          title: document.getElementById("logTitle").value.trim(),
+          body: document.getElementById("logBody").value.trim(),
+          tags,
+          accent_color: document.getElementById("logColor").value,
+          link_url: document.getElementById("logLinkUrl").value.trim(),
+          link_label: document.getElementById("logLinkLabel").value.trim(),
+          media_url: mediaUrl,
+          media_name: mediaName
+        };
+
+        if (window.PORTFOLIO_STATE.isSupabaseReady) {
+          const sb = window.PORTFOLIO_STATE.supabaseClient;
+          if (existing && !existing.id.startsWith("seed-")) {
+            const { data, error } = await sb.from("lab_log").update(payload).eq("id", existing.id).select().single();
+            if (error) throw error;
+            if (data) {
+              window.PORTFOLIO_STATE.labLog = window.PORTFOLIO_STATE.labLog.map((i) => (i.id === existing.id ? data : i));
+            }
+          } else {
+            const { data, error } = await sb.from("lab_log").insert(payload).select().single();
+            if (error) throw error;
+            if (data) {
+              window.PORTFOLIO_STATE.labLog.unshift(data);
+            }
           }
         } else {
-          const { data, error } = await sb.from("lab_log").insert(payload).select().single();
-          if (!error && data) {
-            window.PORTFOLIO_STATE.labLog.unshift(data);
+          if (existing) {
+            window.PORTFOLIO_STATE.labLog = window.PORTFOLIO_STATE.labLog.map((i) =>
+              i.id === existing.id ? { ...i, ...payload } : i
+            );
+          } else {
+            window.PORTFOLIO_STATE.labLog.unshift({
+              id: `local-log-${Date.now()}`,
+              ...payload
+            });
           }
+          saveLocalFallbackState();
         }
-      } else {
-        if (existing) {
-          window.PORTFOLIO_STATE.labLog = window.PORTFOLIO_STATE.labLog.map((i) =>
-            i.id === existing.id ? { ...i, ...payload } : i
-          );
-        } else {
-          window.PORTFOLIO_STATE.labLog.unshift({
-            id: `local-log-${Date.now()}`,
-            ...payload
-          });
-        }
-        saveLocalFallbackState();
-      }
 
-      editingLogId = null;
-      window.refreshPortfolioUI();
-      renderStudioDashboard(existing ? "Lab Log entry updated!" : "New Lab Log entry published!");
+        editingLogId = null;
+        window.refreshPortfolioUI();
+        renderStudioDashboard(existing ? "Update saved!" : "Published!");
+      } catch (err) {
+        alert("Error saving update: " + (err.message || err));
+      }
     });
   }
 
   /* ------------------------------------------------------------------------
-     5. Projects Tab (Current, Featured & Past Projects Manager)
+     Tab 2: Projects Manager (Home Featured vs Full Archive)
      ------------------------------------------------------------------------ */
   function renderProjectsStudioPane() {
     const body = document.getElementById("studioBody");
@@ -484,32 +582,39 @@
       ? window.PORTFOLIO_STATE.projects.find((item) => item.id === editingProjectId)
       : null;
 
+    const isPinnedDefault = existing ? (existing.sort_order ?? 10) <= 1 : false;
+
     body.innerHTML = `
       <form class="composer-card" id="projComposerForm">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <h3 style="font-size:1.2rem;">${existing ? "Edit Project" : "Add Current or Past Project"}</h3>
-          ${existing ? `<button type="button" class="action-pill" id="cancelProjEditBtn">Cancel edit</button>` : ""}
+          <h3 style="font-size:1.12rem;">${existing ? "Edit Project" : "Add Current or Past Project"}</h3>
+          ${existing ? `<button type="button" class="action-pill" id="cancelProjEditBtn">Cancel</button>` : ""}
         </div>
 
         <div class="field-row-2">
           <div class="field-group">
             <label class="field-label" for="projTitle">Project Title</label>
-            <input id="projTitle" class="studio-input" placeholder="e.g. Low-Cost Myoelectric Prosthetic Grip" value="${escapeHtml(existing ? existing.title : "")}" required />
+            <input id="projTitle" class="studio-input" placeholder="e.g. Myoelectric Grip Prototype" value="${escapeHtml(existing ? existing.title : "")}" required />
           </div>
           <div class="field-group">
-            <label class="field-label" for="projStatus">Status / Stage Badge</label>
-            <input id="projStatus" class="studio-input" placeholder="In Progress / Past Build / Prototype" value="${escapeHtml(existing ? existing.status_label : "In Progress")}" required />
+            <label class="field-label" for="projStatus">Status Badge</label>
+            <input id="projStatus" class="studio-input" placeholder="In Progress / Past Build" value="${escapeHtml(existing ? existing.status_label : "In Progress")}" required />
           </div>
         </div>
 
+        <label style="display:flex;align-items:center;gap:8px;font-size:0.86rem;font-weight:600;cursor:pointer;">
+          <input type="checkbox" id="projPinHome" ${isPinnedDefault ? "checked" : ""} />
+          Feature on Home Page (Home shows the top 2 pinned projects; all projects appear on Projects page)
+        </label>
+
         <div class="field-group">
-          <label class="field-label" for="projSummary">Main Description (Problem, method &amp; results)</label>
-          <textarea id="projSummary" class="studio-textarea" placeholder="Describe what you built, measured, or analyzed..." required>${escapeHtml(existing ? existing.summary : "")}</textarea>
+          <label class="field-label" for="projSummary">Main Description</label>
+          <textarea id="projSummary" class="studio-textarea" placeholder="What did you build, measure, or analyze?" required>${escapeHtml(existing ? existing.summary : "")}</textarea>
         </div>
 
         <div class="field-group">
-          <label class="field-label" for="projDetails">Technical Limits / Secondary Notes (optional)</label>
-          <textarea id="projDetails" class="studio-textarea" style="min-height:74px;" placeholder="Key engineering limitations, validation notes, or next steps...">${escapeHtml(existing ? existing.details : "")}</textarea>
+          <label class="field-label" for="projDetails">Extra Notes / Takeaways (optional)</label>
+          <textarea id="projDetails" class="studio-textarea" style="min-height:68px;" placeholder="Technical notes, limits, or results...">${escapeHtml(existing ? existing.details : "")}</textarea>
         </div>
 
         <div class="field-row-2">
@@ -518,14 +623,14 @@
             <input id="projTags" class="studio-input" placeholder="Python, SolidWorks, Biosignals" value="${escapeHtml(existing && existing.tags ? existing.tags.join(", ") : "")}" />
           </div>
           <div class="field-group">
-            <label class="field-label">Card Accent Color</label>
-            ${renderColorPickerHtml(existing ? existing.accent_color : "#0d7a6d", "projColor")}
+            <label class="field-label">Accent Color</label>
+            ${renderColorPickerHtml(existing ? existing.accent_color : "#0f766e", "projColor")}
           </div>
         </div>
 
         <div class="field-row-2">
           <div class="field-group">
-            <label class="field-label" for="projLink1Url">Primary Link URL (GitHub / Demo)</label>
+            <label class="field-label" for="projLink1Url">Primary Link URL</label>
             <input id="projLink1Url" class="studio-input" placeholder="https://github.com/..." value="${escapeHtml(existing ? existing.primary_link_url : "")}" />
           </div>
           <div class="field-group">
@@ -541,12 +646,12 @@
           </div>
           <div class="field-group">
             <label class="field-label" for="projLink2Label">Secondary Button Text</label>
-            <input id="projLink2Label" class="studio-input" placeholder="Read PDF Report" value="${escapeHtml(existing ? existing.secondary_link_label : "")}" />
+            <input id="projLink2Label" class="studio-input" placeholder="Read PDF" value="${escapeHtml(existing ? existing.secondary_link_label : "")}" />
           </div>
         </div>
 
         <div class="field-group">
-          <label class="field-label" for="projFile">Attach Prototype Photo, Diagram, or PDF (optional)</label>
+          <label class="field-label" for="projFile">Attach Photo, Diagram, or PDF (optional)</label>
           <input id="projFile" type="file" class="studio-input" accept="image/*,.pdf" />
           ${existing && existing.media_url ? `
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:0.8rem;">
@@ -556,25 +661,22 @@
           ` : ""}
         </div>
 
-        <button type="submit" class="btn-roll btn-roll--teal btn-wipe" style="width:100%;">
-          <span class="roll-track">
-            <span>${existing ? "Save Project Changes" : "Add Project to Portfolio"}</span>
-            <span>${existing ? "Save Project Changes" : "Add Project to Portfolio"} &rarr;</span>
-          </span>
+        <button type="submit" class="btn btn--teal" style="width:100%;">
+          ${existing ? "Save Project" : "Add Project"}
         </button>
       </form>
 
       <div>
-        <h3 style="font-size:1.15rem;margin-bottom:12px;">All Portfolio Projects (Click Edit to modify)</h3>
+        <h3 style="font-size:1.08rem;margin-bottom:12px;">All Projects</h3>
         <div class="manage-list">
           ${window.PORTFOLIO_STATE.projects.map((item) => `
-            <div class="manage-item" style="--item-accent:${escapeHtml(item.accent_color || "#0d7a6d")};">
+            <div class="manage-item" style="--item-accent:${escapeHtml(item.accent_color || "#0f766e")};">
               <div>
-                <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-muted);">
-                  ${escapeHtml(item.status_label)}
+                <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--ink-muted);">
+                  ${escapeHtml(item.status_label)} ${(item.sort_order ?? 10) <= 1 ? "· Featured on Home" : ""}
                 </div>
-                <strong style="font-size:0.96rem;display:block;margin:2px 0;">${escapeHtml(item.title)}</strong>
-                <p style="font-size:0.84rem;color:var(--ink-secondary);">${escapeHtml(item.summary.slice(0, 110))}${item.summary.length > 110 ? "..." : ""}</p>
+                <strong style="font-size:0.94rem;display:block;margin:2px 0;">${escapeHtml(item.title)}</strong>
+                <p style="font-size:0.82rem;color:var(--ink-secondary);">${escapeHtml(item.summary.slice(0, 100))}${item.summary.length > 100 ? "..." : ""}</p>
               </div>
               <div class="manage-actions">
                 <button type="button" class="action-pill" data-edit-proj="${escapeHtml(item.id)}">Edit</button>
@@ -605,7 +707,7 @@
     document.querySelectorAll("[data-del-proj]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const targetId = btn.dataset.delProj;
-        if (!confirm("Remove this project from your portfolio?")) return;
+        if (!confirm("Remove this project?")) return;
 
         if (window.PORTFOLIO_STATE.isSupabaseReady && !targetId.startsWith("seed-")) {
           await window.PORTFOLIO_STATE.supabaseClient.from("projects").delete().eq("id", targetId);
@@ -619,70 +721,79 @@
 
     document.getElementById("projComposerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const uploaded = await handleFileUpload(document.getElementById("projFile"));
-      const removeMedia = document.getElementById("removeProjMedia")?.checked;
+      try {
+        const uploaded = await handleFileUpload(document.getElementById("projFile"));
+        const removeMedia = document.getElementById("removeProjMedia")?.checked;
 
-      let mediaUrl = existing ? existing.media_url : "";
-      let mediaName = existing ? existing.media_name : "";
-      if (removeMedia) {
-        mediaUrl = "";
-        mediaName = "";
-      } else if (uploaded) {
-        mediaUrl = uploaded.url;
-        mediaName = uploaded.name;
-      }
+        let mediaUrl = existing ? existing.media_url : "";
+        let mediaName = existing ? existing.media_name : "";
+        if (removeMedia) {
+          mediaUrl = "";
+          mediaName = "";
+        } else if (uploaded) {
+          mediaUrl = uploaded.url;
+          mediaName = uploaded.name;
+        }
 
-      const tags = document.getElementById("projTags").value
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean);
+        const tags = document.getElementById("projTags").value
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean);
 
-      const payload = {
-        status_label: document.getElementById("projStatus").value.trim() || "Project",
-        title: document.getElementById("projTitle").value.trim(),
-        summary: document.getElementById("projSummary").value.trim(),
-        details: document.getElementById("projDetails").value.trim(),
-        tags,
-        accent_color: document.getElementById("projColor").value,
-        primary_link_url: document.getElementById("projLink1Url").value.trim(),
-        primary_link_label: document.getElementById("projLink1Label").value.trim(),
-        secondary_link_url: document.getElementById("projLink2Url").value.trim(),
-        secondary_link_label: document.getElementById("projLink2Label").value.trim(),
-        media_url: mediaUrl,
-        media_name: mediaName,
-        widget_type: existing ? existing.widget_type : "standard"
-      };
+        const isPinned = document.getElementById("projPinHome")?.checked;
 
-      if (window.PORTFOLIO_STATE.isSupabaseReady) {
-        const sb = window.PORTFOLIO_STATE.supabaseClient;
-        if (existing && !existing.id.startsWith("seed-")) {
-          const { data, error } = await sb.from("projects").update(payload).eq("id", existing.id).select().single();
-          if (!error && data) {
-            window.PORTFOLIO_STATE.projects = window.PORTFOLIO_STATE.projects.map((i) => (i.id === existing.id ? data : i));
+        const payload = {
+          sort_order: isPinned ? 0 : 10,
+          status_label: document.getElementById("projStatus").value.trim() || "Project",
+          title: document.getElementById("projTitle").value.trim(),
+          summary: document.getElementById("projSummary").value.trim(),
+          details: document.getElementById("projDetails").value.trim(),
+          tags,
+          accent_color: document.getElementById("projColor").value,
+          primary_link_url: document.getElementById("projLink1Url").value.trim(),
+          primary_link_label: document.getElementById("projLink1Label").value.trim(),
+          secondary_link_url: document.getElementById("projLink2Url").value.trim(),
+          secondary_link_label: document.getElementById("projLink2Label").value.trim(),
+          media_url: mediaUrl,
+          media_name: mediaName,
+          widget_type: existing ? existing.widget_type : "standard"
+        };
+
+        if (window.PORTFOLIO_STATE.isSupabaseReady) {
+          const sb = window.PORTFOLIO_STATE.supabaseClient;
+          if (existing && !existing.id.startsWith("seed-")) {
+            const { data, error } = await sb.from("projects").update(payload).eq("id", existing.id).select().single();
+            if (error) throw error;
+            if (data) {
+              window.PORTFOLIO_STATE.projects = window.PORTFOLIO_STATE.projects.map((i) => (i.id === existing.id ? data : i));
+            }
+          } else {
+            const { data, error } = await sb.from("projects").insert(payload).select().single();
+            if (error) throw error;
+            if (data) {
+              window.PORTFOLIO_STATE.projects.push(data);
+            }
           }
         } else {
-          const { data, error } = await sb.from("projects").insert(payload).select().single();
-          if (!error && data) {
-            window.PORTFOLIO_STATE.projects.push(data);
+          if (existing) {
+            window.PORTFOLIO_STATE.projects = window.PORTFOLIO_STATE.projects.map((i) =>
+              i.id === existing.id ? { ...i, ...payload } : i
+            );
+          } else {
+            window.PORTFOLIO_STATE.projects.push({
+              id: `local-proj-${Date.now()}`,
+              ...payload
+            });
           }
+          saveLocalFallbackState();
         }
-      } else {
-        if (existing) {
-          window.PORTFOLIO_STATE.projects = window.PORTFOLIO_STATE.projects.map((i) =>
-            i.id === existing.id ? { ...i, ...payload } : i
-          );
-        } else {
-          window.PORTFOLIO_STATE.projects.push({
-            id: `local-proj-${Date.now()}`,
-            ...payload
-          });
-        }
-        saveLocalFallbackState();
-      }
 
-      editingProjectId = null;
-      window.refreshPortfolioUI();
-      renderStudioDashboard(existing ? "Project updated!" : "Project added to portfolio!");
+        editingProjectId = null;
+        window.refreshPortfolioUI();
+        renderStudioDashboard(existing ? "Project updated!" : "Project added!");
+      } catch (err) {
+        alert("Error saving project: " + (err.message || err));
+      }
     });
   }
 })();

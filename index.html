@@ -3,185 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ion Ander Bolado · Biomedical Engineering &amp; MedTech Translation</title>
-  <meta name="description" content="Biomedical Engineering student at the University of Deusto in Bilbao building medical hardware, biosignal pipelines, and translational pathways from lab bench to bedside." />
+  <title>Ion Ander Bolado · Biomedical Engineering</title>
+  <meta name="description" content="Biomedical Engineering student at the University of Deusto in Bilbao working on medical devices, biosignals, and medical imaging." />
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./animations.css" />
 </head>
-<body>
-  <div class="page-shell">
-    <div id="site-header"></div>
+<body data-page="home">
+  <div id="site-header"></div>
 
-    <!-- BAND 1: HERO -->
-    <section class="band band--fjord" id="top">
-      <div class="radial-rings"></div>
-      <div class="split-2" style="position:relative;z-index:2;">
-        <div>
-          <span class="eyebrow eyebrow--light">Biomedical Engineering &middot; Bilbao, Spain</span>
-          <h1 class="display-hero" style="margin-top:18px;">
-            Medical devices, from the lab bench <span class="serif-italic">to the</span> patient’s bedside.
-          </h1>
-          <p style="margin-top:18px;font-size:1.08rem;opacity:0.9;max-width:560px;">
-            I’m Ion Ander Bolado, a Biomedical Engineering student at the University of Deusto. I work across medical imaging, wearable biosignals, and intellectual property—learning how clinical hardware goes from early prototype to real hospital care.
-          </p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
-            <a href="#projects" class="btn-roll btn-roll--light btn-wipe">
-              <span class="roll-track"><span>Explore Projects</span><span>Explore Projects &rarr;</span></span>
-            </a>
-            <a href="#log" class="btn-roll btn-roll--outline btn-wipe">
-              <span class="roll-track"><span>Read Lab Log</span><span>Read Lab Log &rarr;</span></span>
-            </a>
-            <a href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer" class="btn-roll btn-roll--outline btn-wipe">
-              <span class="roll-track"><span>LinkedIn</span><span>LinkedIn &rarr;</span></span>
-            </a>
-          </div>
+  <main class="container">
+    <!-- 1. HERO (Clean, Warm & Uncluttered) -->
+    <section class="hero-section fade-in-up" id="top">
+      <div class="hero-inner">
+        <div class="status-pill">
+          <span class="status-pill-dot"></span>
+          <span>Bilbao &middot; Biomedical Engineering at Deusto</span>
         </div>
 
-        <!-- LEVITATING INTERACTIVE CT BIOPSY PLAN -->
-        <figure class="scan-panel levitate-device" id="scan" style="margin:0;">
-          <svg viewBox="0 0 520 390" role="img" aria-label="Axial chest CT schematic showing a 58.78 mm biopsy needle trajectory reaching a lung nodule">
-            <ellipse cx="260" cy="186" rx="236" ry="156" fill="#173238" stroke="#365e66" stroke-width="2" />
-            <path d="M150 88C95 98 78 186 98 258C118 301 182 304 212 266C236 226 236 128 214 98C196 80 170 82 150 88Z" fill="#061012" stroke="#284950" />
-            <path d="M370 88C425 98 442 186 422 258C402 301 338 304 308 266C292 226 292 128 306 98C322 80 350 82 370 88Z" fill="#061012" stroke="#284950" />
-            <ellipse cx="262" cy="200" rx="34" ry="42" fill="#4f7882" opacity="0.65" />
-            <circle cx="260" cy="312" r="22" fill="#9fbcc4" />
-            <g fill="none" stroke="#628a94" stroke-width="5" opacity="0.7">
-              <path d="M40 166C40 250 80 296 140 326" />
-              <path d="M480 166C480 250 440 296 380 326" />
-            </g>
-            <circle cx="148" cy="232" r="19" fill="#c9e0e6" />
-            <path class="path" d="M28 232L131 232" />
-            <g class="tip"><circle cx="148" cy="232" r="4.5" fill="var(--accent-signal)" /></g>
-            <circle class="ring" cx="148" cy="232" r="19" />
-            <text x="28" y="216" fill="#b8d1d9" font-size="13" font-family="JetBrains Mono, monospace">Entry</text>
-            <text x="120" y="272" fill="#b8d1d9" font-size="13" font-family="JetBrains Mono, monospace">Nodule</text>
-            <text x="28" y="378" fill="#6f919b" font-size="11.5" font-family="JetBrains Mono, monospace">Schematic of 3D Slicer biopsy trajectory (synthetic geometry)</text>
-          </svg>
-          <div class="readout">
-            <span><b>58.78 mm</b> path &middot; <b>84&deg;</b> angle &middot; pleura crossed <b>1&times;</b></span>
-            <button type="button" class="mini-btn" id="replayScan">Replay path</button>
-          </div>
-        </figure>
+        <h1 class="hero-title">
+          Building practical medical hardware, <span class="serif-accent">from prototype</span> to real patient care.
+        </h1>
+
+        <p class="hero-lead">
+          Hi, I’m Ion Ander. I’m a Biomedical Engineering student at the University of Deusto working across wearable sensors, biosignal processing, and medical imaging—while preparing to carry out my Bachelor’s Thesis (TFG) in Germany or the UK.
+        </p>
+
+        <div class="hero-actions">
+          <a href="projects.html" class="btn btn--primary">Explore all projects &rarr;</a>
+          <a href="#updates" class="btn btn--secondary">Recent updates</a>
+          <a href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer" class="btn btn--secondary">LinkedIn</a>
+        </div>
       </div>
     </section>
 
-    <!-- BAND 2: ABOUT & INTERNATIONAL MOBILITY -->
-    <section class="band band--porcelain two-tone-sweep" id="about">
-      <div class="split-2">
-        <div>
-          <span class="eyebrow">01 &middot; About &amp; Translational Vision</span>
-          <h2 class="display-section" style="margin-top:14px;">
-            I want to build the device, <span class="serif-italic">not only</span> read about it.
+    <!-- 2. ABOUT & SNAPSHOT -->
+    <section class="section-block" id="about">
+      <div class="about-grid">
+        <div class="about-copy">
+          <span class="kicker"><span class="kicker-dot"></span> About me</span>
+          <h2 class="section-title">
+            I want to build the device, <span class="serif-accent">not just</span> read about it.
           </h2>
-          <p style="margin-top:16px;color:var(--ink-secondary);font-size:1.02rem;">
-            My goal is to develop medical hardware that solves hard clinical problems. To get there, I pair my Biomedical Engineering coursework at the University of Deusto with the parts that turn an early prototype into a real clinical product: securing intellectual property, understanding patent claims, and studying how international venture capital backs life sciences.
+          <p>
+            I’m drawn to the hands-on side of medical technology: designing hardware that solves a clear clinical problem, testing its limits, and understanding how an engineering prototype actually survives regulation, patents, and hospital adoption.
           </p>
-          <p style="margin-top:12px;color:var(--ink-secondary);font-size:1.02rem;">
-            Preparing to work across European research ecosystems is part of my weekly routine. Alongside full-time engineering classes, I dedicate <strong>six hours every week to mastering German</strong> (targeting B2/C1) so I can execute my Bachelor’s Thesis (TFG) inside Germany’s or the UK’s leading biomedical hubs.
+          <p>
+            Alongside my classes in Bilbao, I put <strong>six hours every week into learning German</strong> (aiming for B2/C1) so I can join a biomedical engineering lab in Germany or the UK for my fourth-year thesis (TFG)—focusing on surgical robotics, smart implants, or diagnostic devices.
           </p>
-          <p style="margin-top:12px;color:var(--ink-secondary);font-size:1.02rem;">
-            On campus, I serve as a student representative and volunteer as an on-call speaker during university open days—explaining biomedical hardware and clinical engineering pathways to prospective students and their families.
+          <p>
+            At Deusto, I also serve as a student representative and speak at university open days to share what studying Biomedical Engineering really looks like.
           </p>
         </div>
 
-        <div class="fact-stack focus-zoom-group" id="factsGrid"></div>
+        <div class="snapshot-list" id="factsGrid"></div>
       </div>
     </section>
 
-    <!-- BAND 3: ENGINEERING & MEDTECH PROJECTS (Dynamically Rendered) -->
-    <section class="band band--sage two-tone-sweep" id="projects">
-      <span class="eyebrow">02 &middot; Selected Engineering &amp; MedTech Work</span>
-      <h2 class="display-section" style="margin:12px 0 10px;">Projects with real signals, metrics, and limits.</h2>
-      <p style="color:var(--ink-secondary);max-width:680px;margin-bottom:28px;">
-        From wearable cardiac telemetry and Health 4.0 system architecture to 3D CT surgical planning, EEG artifact rejection, and ongoing clinical builds.
-      </p>
-
-      <div class="project-showcase" id="projectsShowcase"></div>
-    </section>
-
-    <!-- BAND 4: LAB & FOUNDER'S LOG (Dynamically Rendered) -->
-    <section class="band band--porcelain two-tone-sweep" id="log">
-      <span class="eyebrow eyebrow--signal">03 &middot; Build-in-Public Notebook</span>
-      <h2 class="display-section" style="margin:12px 0 10px;">
-        Lab &amp; Founder’s <span class="serif-italic">Log</span>
-      </h2>
-      <p style="color:var(--ink-secondary);max-width:700px;">
-        A running record of what I am building, debugging, reading, and preparing—kept public so researchers and engineers can follow the real progression behind the CV.
-      </p>
-
-      <div class="log-controls" role="tablist" aria-label="Filter lab log entries">
-        <button type="button" class="log-filter active" data-log-filter="all">All Entries</button>
-        <button type="button" class="log-filter" data-log-filter="engineering">Hardware &amp; Signals</button>
-        <button type="button" class="log-filter" data-log-filter="translation">Translation &amp; IP</button>
-        <button type="button" class="log-filter" data-log-filter="mobility">Germany / Mobility</button>
-      </div>
-
-      <div class="log-feed" id="logFeed"></div>
-    </section>
-
-    <!-- BAND 5: ROADMAP -->
-    <section class="band band--mist two-tone-sweep" id="roadmap">
-      <span class="eyebrow">04 &middot; Trajectory</span>
-      <h2 class="display-section" style="margin:12px 0 26px;">Where I’m heading, step by step.</h2>
-      <div class="grid-3 focus-zoom-group" id="roadmapGrid"></div>
-    </section>
-
-    <!-- BAND 6: ENGINEERING FOCUS PILLARS -->
-    <section class="band band--obsidian" id="focus">
-      <span class="eyebrow eyebrow--light">05 &middot; Core Domains</span>
-      <h2 class="display-section" style="margin:12px 0 28px;">Where my engineering is pointed.</h2>
-      <div class="grid-3 focus-zoom-group" id="focusGrid"></div>
-    </section>
-
-    <!-- BAND 7: CONTACT & COLLABORATION -->
-    <section class="band band--fjord" id="contact">
-      <div class="split-2">
+    <!-- 3. FEATURED PROJECTS (Strictly 2 Highlights + Link to Dedicated Projects Page) -->
+    <section class="section-block" id="featured-projects">
+      <div class="section-head">
         <div>
-          <span class="eyebrow eyebrow--light">06 &middot; Connect</span>
-          <h2 class="display-section" style="margin-top:14px;">
-            Working on medical hardware or clinical research? <span class="serif-italic">Let’s talk.</span>
-          </h2>
-          <p style="margin-top:14px;opacity:0.88;font-size:1.02rem;max-width:520px;">
-            I’m always glad to learn from principal investigators, clinical researchers, and MedTech engineers—especially teams in Germany, the UK, and the Basque Country.
+          <span class="kicker"><span class="kicker-dot"></span> Selected Work</span>
+          <h2 class="section-title">Featured Projects</h2>
+          <p class="section-sub">
+            Two recent builds I’ve spent the most time on. Open the full projects page to browse everything else.
           </p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
-            <a href="mailto:ionander.bolado@opendeusto.es" class="btn-roll btn-roll--light btn-wipe">
-              <span class="roll-track"><span>ionander.bolado@opendeusto.es</span><span>Send an email &rarr;</span></span>
-            </a>
-            <button type="button" id="copyEmailBtn" class="btn-roll btn-roll--outline btn-wipe">
-              <span class="roll-track"><span>Copy email address</span><span>Copy email address</span></span>
-            </button>
-            <a href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer" class="btn-roll btn-roll--outline btn-wipe">
-              <span class="roll-track"><span>LinkedIn</span><span>LinkedIn &rarr;</span></span>
-            </a>
-          </div>
+        </div>
+        <a href="projects.html" class="btn btn--secondary">All projects &rarr;</a>
+      </div>
+
+      <div id="featuredProjectsHome"></div>
+    </section>
+
+    <!-- 4. UPDATES & NOTES (Friendly, Down-to-Earth Feed) -->
+    <section class="section-block" id="updates">
+      <div class="section-head">
+        <div>
+          <span class="kicker"><span class="kicker-dot"></span> Lately</span>
+          <h2 class="section-title">Updates &amp; Notes</h2>
+          <p class="section-sub">
+            Short notes on what I’m building, debugging, reading, or preparing at the moment.
+          </p>
+        </div>
+      </div>
+
+      <div class="filter-bar" role="tablist" aria-label="Filter updates">
+        <button type="button" class="filter-chip active" data-update-filter="all">All</button>
+        <button type="button" class="filter-chip" data-update-filter="engineering">Engineering &amp; Signals</button>
+        <button type="button" class="filter-chip" data-update-filter="translation">MedTech &amp; IP</button>
+        <button type="button" class="filter-chip" data-update-filter="mobility">Germany &amp; TFG</button>
+      </div>
+
+      <div class="updates-list" id="updatesFeed"></div>
+    </section>
+
+    <!-- 5. CONTACT -->
+    <section class="section-block" id="contact">
+      <div class="contact-box">
+        <div style="max-width:560px;">
+          <span class="kicker"><span class="kicker-dot"></span> Get in touch</span>
+          <h2 class="section-title" style="margin-bottom:10px;">
+            Working on medical hardware or clinical research? <span class="serif-accent">Let’s chat.</span>
+          </h2>
+          <p style="color:var(--ink-secondary);font-size:0.96rem;">
+            Whether it’s about a Bachelor’s Thesis (TFG) lab placement in Germany or the UK, MedTech R&amp;D, or a project idea, feel free to reach out.
+          </p>
         </div>
 
-        <div class="collab-panel">
-          <span class="eyebrow eyebrow--light">Open Conversations</span>
-          <h3 style="font-size:1.3rem;margin-top:14px;">What I’d love to discuss with you</h3>
-          <ul class="collab-list">
-            <li>
-              <strong>Bachelor’s Thesis (TFG) Opportunities</strong>
-              Research placements in surgical robotics, smart implants, or translational medical devices at FAU, TUM, RWTH Aachen, or UK Golden Triangle labs.
-            </li>
-            <li>
-              <strong>MedTech R&amp;D &amp; Patent Strategy</strong>
-              How academic prototypes navigate EU MDR, IP protection, and clinical validation to reach real hospital teams.
-            </li>
-            <li>
-              <strong>Biomedical Engineering &amp; Student Outreach</strong>
-              Connecting with fellow students, clinicians, and health-tech builders in Bilbao and across Europe.
-            </li>
-          </ul>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <a href="mailto:ionander.bolado@opendeusto.es" class="btn btn--teal">ionander.bolado@opendeusto.es</a>
+          <button type="button" id="copyEmailBtn" class="btn btn--secondary">Copy email</button>
+          <a href="https://linkedin.com/in/ionanderboladogracia" target="_blank" rel="noreferrer" class="btn btn--secondary">LinkedIn &rarr;</a>
         </div>
       </div>
     </section>
+  </main>
 
-    <div id="site-footer"></div>
-  </div>
+  <div id="site-footer"></div>
 
-  <!-- Supabase SDK v2 (Gracefully bypassed until config.js keys are added) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./config.js"></script>
   <script src="./data.js"></script>
